@@ -1178,7 +1178,7 @@
                     
                     <div class="form-group">
                         <label for="progress" class="required">Progres Sub-Tahapan (%)</label>
-                        <input type="number" id="progress" min="0" max="100" placeholder="0-100">
+                        <input type="number" class="required" id="progress" min="0" max="100" placeholder="0-100" required>
                         <small>Masukkan progres yang dicapai untuk Sub-Tahapan yang dipilih.</small>
                     </div>
                     
@@ -2110,7 +2110,8 @@
             const hours = parseFloat(document.getElementById('hoursWorked').value);
             const subtaskIdComposite = document.getElementById('milestoneSelect').value; // mID_sID
             const activities = document.getElementById('activities').value.trim();
-            const progress = parseInt(document.getElementById('progress').value) || 0;
+            const progressInput = document.getElementById('progress').value.trim();
+            const progress = parseInt(progressInput);
             const priority = document.getElementById('priorityLevel').value;
             const challenges = document.getElementById('challenges').value.trim();
             const nextPlan = document.getElementById('nextPlan').value.trim();
@@ -2129,7 +2130,15 @@
                 return;
             }
 
-            if (progress < 0 || progress > 100) {
+
+            // Validasi wajib diisi
+            if (progressInput === "") {
+                showNotification('Progress Sub-Tahapan wajib diisi.', 'error');
+                return;
+            }
+
+            // Validasi range & valid number
+            if (isNaN(progress) || progress < 0 || progress > 100) {
                 showNotification('Progress harus antara 0 hingga 100.', 'error');
                 return;
             }
