@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project Timeline & Log Harian - Detail Sub-Tahapan</title>
+    <title>Project Timeline & Log Harian - Enhanced with Anti-Claim System</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.0/dist/chart.min.js"></script>
     <style>
-        /* CSS DENGAN SATU TEMA DEFAULT (LIGHT/PROFESSIONAL) */
+        /* Semua kode CSS tetap sama seperti sebelumnya */
         * {
             margin: 0;
             padding: 0;
@@ -16,7 +16,6 @@
         }
         
         :root {
-            /* Tema Default Tunggal */
             --primary: #3498db;
             --secondary: #2c3e50;
             --success: #2ecc71;
@@ -52,8 +51,6 @@
             text-align: center;
             position: relative;
         }
-        
-        /* THEME SELECTOR DIHILANGKAN */
         
         h1 {
             font-size: 2.2rem;
@@ -97,25 +94,287 @@
         }
         
         .main-content {
-            /* Digunakan hanya untuk Timeline dan Log Harian (2 kolom) */
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 30px;
         }
         
-        /* FIX: New class to replace nested .main-content (dari perbaikan sebelumnya) */
         .chart-grid-container {
             display: grid;
             grid-template-columns: 1fr 1fr; 
             gap: 30px;
         }
 
+        /* Team Monitoring Styles */
+        .team-monitoring-section {
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            margin-bottom: 25px;
+        }
+        
+        .team-member-card {
+            background: white;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            border-left: 4px solid var(--primary);
+        }
+        
+        .member-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .member-name {
+            font-weight: bold;
+            color: var(--secondary);
+            font-size: 1.1rem;
+        }
+        
+        .member-role {
+            background-color: var(--light);
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            color: var(--dark);
+        }
+        
+        .member-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        
+        .stat-item {
+            text-align: center;
+            padding: 8px;
+            background-color: #f8f9fa;
+            border-radius: 6px;
+        }
+        
+        .stat-value {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--primary);
+        }
+        
+        .stat-label {
+            font-size: 0.8rem;
+            color: #7f8c8d;
+        }
+        
+        .quality-badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            font-weight: bold;
+            color: white;
+            text-transform: uppercase;
+        }
+        
+        .quality-good { background-color: var(--success); }
+        .quality-medium { background-color: var(--warning); color: var(--text); }
+        .quality-poor { background-color: var(--danger); }
+
+        /* Penalty System Styles */
+        .penalty-dashboard {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+        }
+        
+        .performance-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .performance-card {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+            border: 2px solid #e9ecef;
+            transition: all 0.3s;
+        }
+        
+        .performance-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .member-score {
+            font-size: 2rem;
+            font-weight: bold;
+            margin: 10px 0;
+            border-radius: 50%;
+            width: 80px;
+            height: 80px;
+            line-height: 80px;
+            margin: 0 auto 10px;
+        }
+        
+        .score-excellent { background-color: #2ecc71; color: white; }
+        .score-good { background-color: #3498db; color: white; }
+        .score-fair { background-color: #f39c12; color: white; }
+        .score-poor { background-color: #e74c3c; color: white; }
+        
+        .penalty-list {
+            margin-top: 10px;
+            text-align: left;
+        }
+        
+        .penalty-item {
+            background: #fff;
+            padding: 5px 10px;
+            margin: 5px 0;
+            border-radius: 4px;
+            border-left: 3px solid #e74c3c;
+            font-size: 0.85rem;
+        }
+        
+        .ownership-badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            background-color: #3498db;
+            color: white;
+            margin-left: 5px;
+        }
+
+        /* Template Styles */
+        .template-selector {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .template-card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+            border: 3px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .template-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            border-color: var(--primary);
+        }
+
+        .template-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--success));
+        }
+        
+        .template-card[data-template="custom"] {
+            opacity: 0.9;
+            cursor: pointer;
+        }
+        
+        .template-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            color: var(--primary);
+        }
+        
+        .template-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--primary);
+            color: white;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: bold;
+        }
+        
+        .template-features {
+            text-align: left;
+            margin: 15px 0;
+            font-size: 0.9rem;
+        }
+        
+        .template-features ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .template-features li {
+            padding: 5px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .template-features li:before {
+            content: '✓';
+            color: var(--success);
+            font-weight: bold;
+            margin-right: 8px;
+        }
+
+        /* Print-specific styles for team monitoring */
+        .team-stats-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+        }
+        
+        .team-stats-table th, .team-stats-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .team-stats-table th {
+            background-color: var(--primary);
+            color: white;
+            text-transform: uppercase;
+            font-size: 0.9em;
+        }
+        
+        .team-stats-table tr:hover {
+            background-color: #f5f5f5;
+        }
+
         @media (max-width: 1024px) {
             .main-content {
                 grid-template-columns: 1fr;
             }
-            /* Apply 1-column layout to chart grid on small screens */
             .chart-grid-container {
+                grid-template-columns: 1fr;
+            }
+            .member-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .performance-cards {
+                grid-template-columns: 1fr;
+            }
+            .template-selector {
                 grid-template-columns: 1fr;
             }
         }
@@ -237,6 +496,9 @@
             gap: 10px;
             margin-bottom: 8px;
             align-items: center;
+            padding: 8px;
+            background: #f8f9fa;
+            border-radius: 6px;
         }
 
         .subtask-item input {
@@ -251,76 +513,6 @@
             font-size: 0.9rem;
             margin: 0;
             font-weight: 500;
-        }
-
-        /* Template Styles (no change) */
-        .template-selector {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin: 15px 0;
-        }
-        
-        .template-card {
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
-            cursor: pointer;
-            transition: all 0.3s;
-            text-align: center;
-            border: 2px solid transparent;
-        }
-        
-        .template-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        .template-card[data-template="custom"] {
-            opacity: 0.8;
-            cursor: default;
-        }
-        
-        .template-icon {
-            font-size: 2rem;
-            margin-bottom: 10px;
-            color: var(--primary);
-        }
-        
-        /* Timeline Styles (Updated for Subtasks) */
-        .timeline-item {
-            position: relative;
-            margin-bottom: 20px;
-            padding-left: 50px;
-        }
-        
-        .timeline-subtasks {
-            border-left: 2px solid #ddd;
-            padding-left: 20px;
-            margin-top: 10px;
-            margin-bottom: 10px;
-        }
-
-        .timeline-subtask-item {
-            background-color: #f8f9fa;
-            border-radius: 6px;
-            padding: 10px;
-            margin-bottom: 8px;
-            font-size: 0.9rem;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-        }
-
-        .timeline-subtask-item .timeline-date {
-            font-weight: normal;
-            font-size: 0.8rem;
-            color: #7f8c8d;
-        }
-        
-        .timeline-subtask-item strong {
-            display: block;
-            margin-bottom: 3px;
-            color: var(--secondary);
         }
 
         /* Search & Filter Styles */
@@ -384,14 +576,11 @@
             margin-bottom: 20px;
         }
         
-        /* FIX FOR INFINITY SCROLL/REDRAW ISSUE */
         .chart-container canvas {
-            /* Enforce a stable height to prevent vertical layout thrashing from Chart.js responsiveness */
             max-height: 400px; 
             height: 400px; 
-            width: 100% !important; /* Ensure it takes full width of container */
+            width: 100% !important;
         }
-        /* END FIX */
 
         /* Progress Styles */
         .progress-container {
@@ -751,44 +940,6 @@
             transform: scale(1.05);
         }
         
-        /* Comment Styles (Simple Implementation) */
-        .log-comments {
-            margin-top: 15px;
-            border-top: 1px solid #eee;
-            padding-top: 15px;
-        }
-        
-        .comment-form {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-        
-        .comment-input {
-            flex: 1;
-            min-height: 60px;
-        }
-        
-        .comments-list {
-            max-height: 200px;
-            overflow-y: auto;
-        }
-        
-        .comment {
-            background-color: #f8f9fa;
-            padding: 10px;
-            border-radius: 8px;
-            margin-bottom: 10px;
-        }
-        
-        .comment-header {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.8rem;
-            color: #6c757d;
-            margin-bottom: 5px;
-        }
-        
         /* Empty State */
         .empty-state {
             text-align: center;
@@ -896,19 +1047,17 @@
             border-top: 1px solid #eee;
         }
         
-        /* [START] FIX: New Print Styles to only show the Report Tab */
+        /* Print Styles */
         @media print {
             body {
                 background: white;
                 padding: 0;
-                /* Reset overflow if needed */
                 overflow: auto !important; 
             }
             
             .container {
                 box-shadow: none;
                 border-radius: 0;
-                /* Paksa container mengambil penuh ruang cetak */
                 width: 100% !important; 
                 margin: 0 !important;
                 padding: 0 !important;
@@ -927,24 +1076,27 @@
             /* HIDE OTHER TAB CONTENTS */
             #timeline-tab, 
             #log-tab, 
-            #analytics-tab, 
-            #settings-tab 
+            #settings-tab
             {
                 display: none !important;
             }
             
             /* SHOW ONLY THE REPORT TAB */
-            #report-tab {
+            #team-monitoring-tab,
+            #analytics-tab,
+            .print-log-section {
                 display: block !important;
                 position: static !important;
                 width: 100% !important;
                 padding: 0 !important;
-                /* Remove white space above report */
                 margin: 0 !important; 
+                page-break-before: always;
             }
             
             /* Reset inner section style */
-            .report-section {
+            .team-monitoring-section,
+            .analytics-section,
+            .print-log-section {
                 box-shadow: none;
                 border: none;
                 padding: 20px;
@@ -952,7 +1104,7 @@
             }
 
             /* Pastikan elemen cetak warna dengan benar */
-            .progress-fill, .compliance-badge, header {
+            .progress-fill, .compliance-badge, header, .team-stats-table th {
                 -webkit-print-color-adjust: exact !important;
                 print-color-adjust: exact !important;
             }
@@ -966,7 +1118,7 @@
 
             /* Atur ulang tata letak grid untuk laporan agar jadi satu kolom */
             .analytics-grid {
-                grid-template-columns: 1fr 1fr !important; /* Biarkan 2 kolom untuk metrik jika ruang cukup */
+                grid-template-columns: 1fr 1fr !important;
                 gap: 10px;
             }
             
@@ -974,8 +1126,94 @@
             .log-evidence img {
                 height: 80px;
             }
+            
+            /* Print styles for team monitoring section */
+            .team-monitoring-print {
+                page-break-inside: avoid;
+                margin: 20px 0;
+            }
+            
+            .team-stats-table {
+                page-break-inside: avoid;
+            }
+            
+            .team-member-card {
+                page-break-inside: avoid;
+                margin-bottom: 15px;
+                border: 1px solid #ddd !important;
+                box-shadow: none !important;
+            }
+            
+            .performance-cards {
+                display: grid !important;
+                grid-template-columns: repeat(3, 1fr) !important;
+                gap: 10px !important;
+            }
+            
+            .performance-card {
+                break-inside: avoid;
+                page-break-inside: avoid;
+            }
+            
+            /* Ensure proper page breaks */
+            .print-page-break {
+                page-break-before: always;
+            }
+            
+            /* Print styles untuk laporan lengkap */
+            .print-section {
+                margin-bottom: 30px;
+            }
+            
+            .print-log-item {
+                margin-bottom: 20px;
+                padding: 15px;
+                border: 1px solid #ddd;
+                border-radius: 5px;
+                page-break-inside: avoid;
+            }
+            
+            .print-log-header {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 10px;
+                font-size: 14px;
+            }
+            
+            .print-log-content p {
+                margin: 5px 0;
+                font-size: 13px;
+            }
+            
+            .print-tag {
+                background: #f0f0f0;
+                padding: 2px 8px;
+                border-radius: 10px;
+                font-size: 11px;
+                margin-right: 5px;
+            }
+            
+            .print-priority {
+                padding: 2px 8px;
+                border-radius: 10px;
+                font-size: 11px;
+                font-weight: bold;
+            }
+            
+            .priority-high { background: #ffeaa7; }
+            .priority-critical { background: #fab1a0; }
+            .priority-medium { background: #a29bfe; }
+            .priority-low { background: #dfe6e9; }
+            
+            /* Page breaks */
+            .print-section, .print-log-section {
+                page-break-inside: avoid;
+            }
+            
+            .print-log-item {
+                page-break-inside: avoid;
+            }
         }
-        /* [END] FIX: New Print Styles to only show the Report Tab */
         
         /* Mobile Responsive */
         @media (max-width: 768px) {
@@ -1002,7 +1240,7 @@
             }
             
             input, textarea, select {
-                font-size: 16px; /* Prevent zoom on iOS */
+                font-size: 16px;
             }
             
             .image-preview-container {
@@ -1039,14 +1277,17 @@
     <div class="container">
         <header>
             <h1>PROJECT TIMELINE & LOG HARIAN</h1>
-            <p class="subtitle">Sistem Perencanaan dan Pelacakan Project-Based Learning</p>
+            <p class="subtitle">Sistem Perencanaan dan Pelacakan Project-Based Learning dengan Anti-Claim & Penalty System</p>
+            <button id="printFullReport" class="btn-primary" style="margin-top: 15px;">
+                <i class="fas fa-print"></i> Cetak Laporan Lengkap (PDF)
+            </button>
         </header>
         
         <div class="tabs">
             <div class="tab active" data-tab="timeline">Timeline Project</div>
             <div class="tab" data-tab="log">Log Harian</div>
+            <div class="tab" data-tab="team-monitoring">Monitoring Tim & Penalty</div>
             <div class="tab" data-tab="analytics">Analytics</div>
-            <div class="tab" data-tab="report">Laporan & Cetak</div>
             <div class="tab" data-tab="settings">Settings</div>
         </div>
         
@@ -1068,20 +1309,122 @@
                     <div class="form-group">
                         <label for="projectTemplate">Template Project</label>
                         <div class="template-selector">
-                            <div class="template-card" data-template="software">
-                                <div class="template-icon"><i class="fas fa-laptop-code"></i></div>
-                                <h4>Software Development</h4>
-                                <p>Template untuk pengembangan software</p>
+                            <div class="template-card" data-template="waterfall">
+                                <div class="template-badge">WATERFALL</div>
+                                <div class="template-icon"><i class="fas fa-water"></i></div>
+                                <h4>Waterfall Model</h4>
+                                <p>Sequential linear development approach</p>
+                                <div class="template-features">
+                                    <ul>
+                                        <li>Requirements Analysis</li>
+                                        <li>System Design</li>
+                                        <li>Implementation</li>
+                                        <li>Testing</li>
+                                        <li>Deployment</li>
+                                        <li>Maintenance</li>
+                                    </ul>
+                                </div>
+                                <small><strong>Cocok untuk:</strong> Project dengan requirements jelas dan stabil</small>
                             </div>
-                            <div class="template-card" data-template="research">
-                                <div class="template-icon"><i class="fas fa-flask"></i></div>
-                                <h4>Research Project</h4>
-                                <p>Template untuk project penelitian</p>
+                            <div class="template-card" data-template="scrum">
+                                <div class="template-badge">SCRUM</div>
+                                <div class="template-icon"><i class="fas fa-sync-alt"></i></div>
+                                <h4>Scrum Framework</h4>
+                                <p>Agile iterative development</p>
+                                <div class="template-features">
+                                    <ul>
+                                        <li>Sprint Planning</li>
+                                        <li>Daily Stand-up</li>
+                                        <li>Sprint Review</li>
+                                        <li>Sprint Retrospective</li>
+                                        <li>Product Backlog</li>
+                                        <li>Sprint Backlog</li>
+                                    </ul>
+                                </div>
+                                <small><strong>Cocok untuk:</strong> Project dengan requirements berubah</small>
+                            </div>
+                            <div class="template-card" data-template="prototype">
+                                <div class="template-badge">PROTOTYPE</div>
+                                <div class="template-icon"><i class="fas fa-clone"></i></div>
+                                <h4>Prototyping Model</h4>
+                                <p>Rapid prototyping and iteration</p>
+                                <div class="template-features">
+                                    <ul>
+                                        <li>Requirement Gathering</li>
+                                        <li>Quick Design</li>
+                                        <li>Prototype Building</li>
+                                        <li>User Evaluation</li>
+                                        <li>Refinement</li>
+                                        <li>Product Engineering</li>
+                                    </ul>
+                                </div>
+                                <small><strong>Cocok untuk:</strong> Project dengan UI/UX kompleks</small>
+                            </div>
+                            <div class="template-card" data-template="rad">
+                                <div class="template-badge">RAD</div>
+                                <div class="template-icon"><i class="fas fa-bolt"></i></div>
+                                <h4>Rapid Application Development</h4>
+                                <p>Fast development with minimal planning</p>
+                                <div class="template-features">
+                                    <ul>
+                                        <li>Requirements Planning</li>
+                                        <li>User Design</li>
+                                        <li>Rapid Construction</li>
+                                        <li>Cutover</li>
+                                        <li>Parallel Development</li>
+                                        <li>Time-boxing</li>
+                                    </ul>
+                                </div>
+                                <small><strong>Cocok untuk:</strong> Project dengan deadline ketat</small>
+                            </div>
+                            <div class="template-card" data-template="spiral">
+                                <div class="template-badge">SPIRAL</div>
+                                <div class="template-icon"><i class="fas fa-redo-alt"></i></div>
+                                <h4>Spiral Model</h4>
+                                <p>Risk-driven development approach</p>
+                                <div class="template-features">
+                                    <ul>
+                                        <li>Planning</li>
+                                        <li>Risk Analysis</li>
+                                        <li>Engineering</li>
+                                        <li>Evaluation</li>
+                                        <li>Iterative Cycles</li>
+                                        <li>Risk Management</li>
+                                    </ul>
+                                </div>
+                                <small><strong>Cocok untuk:</strong> Project besar dengan risiko tinggi</small>
+                            </div>
+                            <div class="template-card" data-template="kanban">
+                                <div class="template-badge">KANBAN</div>
+                                <div class="template-icon"><i class="fas fa-columns"></i></div>
+                                <h4>Kanban Method</h4>
+                                <p>Visual workflow management</p>
+                                <div class="template-features">
+                                    <ul>
+                                        <li>Visualize Workflow</li>
+                                        <li>Limit WIP</li>
+                                        <li>Manage Flow</li>
+                                        <li>Explicit Policies</li>
+                                        <li>Feedback Loops</li>
+                                        <li>Continuous Improvement</li>
+                                    </ul>
+                                </div>
+                                <small><strong>Cocok untuk:</strong> Maintenance & support project</small>
                             </div>
                             <div class="template-card" data-template="custom">
+                                <div class="template-badge">CUSTOM</div>
                                 <div class="template-icon"><i class="fas fa-cog"></i></div>
-                                <h4>Custom</h4>
-                                <p>Buat timeline sendiri</p>
+                                <h4>Custom Template</h4>
+                                <p>Buat timeline sesuai kebutuhan</p>
+                                <div class="template-features">
+                                    <ul>
+                                        <li>Flexible Structure</li>
+                                        <li>Custom Milestones</li>
+                                        <li>Adaptive Planning</li>
+                                        <li>Personalized Workflow</li>
+                                    </ul>
+                                </div>
+                                <small><strong>Cocok untuk:</strong> Project unik dengan kebutuhan khusus</small>
                             </div>
                         </div>
                     </div>
@@ -1089,7 +1432,8 @@
                     <div class="form-group">
                         <label for="teamMembers">Anggota Tim</label>
                         <div id="teamMembersContainer">
-                            </div>
+                            <!-- Team members will be added here dynamically -->
+                        </div>
                         <button type="button" id="addMember" class="btn-primary">Tambah Anggota</button>
                     </div>
                     
@@ -1105,7 +1449,8 @@
                     
                     <h3>Tahapan Project (Milestone & Sub-Tahapan)</h3>
                     <div id="milestoneContainer">
-                        </div>
+                        <!-- Milestones will be added here dynamically -->
+                    </div>
                     
                     <button type="button" id="addMilestone" class="btn-primary">Tambah Tahapan Utama</button>
                     
@@ -1140,6 +1485,14 @@
                     <div class="form-group">
                         <label for="hoursWorked" class="required">Jam Bekerja</label>
                         <input type="number" id="hoursWorked" min="0.5" max="24" step="0.5" placeholder="Contoh: 4.5">
+                        <small id="adjustedHoursInfo" style="color: #e74c3c; display: none;"></small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="logMember" class="required">Anggota Tim yang Bekerja</label>
+                        <select id="logMember" required>
+                            <option value="">Pilih Anggota Tim</option>
+                        </select>
                     </div>
                     
                     <div class="form-group">
@@ -1147,6 +1500,7 @@
                         <select id="milestoneSelect">
                             <option value="">Pilih Sub-Tahapan project</option>
                         </select>
+                        <small id="subtaskInfo" style="color: #7f8c8d; margin-top: 5px; display: block;"></small>
                     </div>
                     
                     <div class="form-group">
@@ -1158,6 +1512,9 @@
                             <option value="documentation">Documentation</option>
                             <option value="meeting">Meeting</option>
                             <option value="design">Design</option>
+                            <option value="planning">Planning</option>
+                            <option value="review">Review</option>
+                            <option value="deployment">Deployment</option>
                         </select>
                     </div>
                     
@@ -1174,6 +1531,7 @@
                     <div class="form-group">
                         <label for="activities" class="required">Aktivitas Hari Ini</label>
                         <textarea id="activities" placeholder="Jelaskan aktivitas yang dilakukan hari ini"></textarea>
+                        <small id="contentQualityWarning" style="color: #e74c3c; display: none;"></small>
                     </div>
                     
                     <div class="form-group">
@@ -1188,8 +1546,16 @@
                     </div>
                     
                     <div class="form-group">
-                        <label for="nextPlan">Rencana Selanjutnya</label>
-                        <textarea id="nextPlan" placeholder="Jelaskan rencana untuk hari berikutnya"></textarea>
+                        <label for="nextPlanSubtask">Rencana Sub-Tahapan Selanjutnya</label>
+                        <select id="nextPlanSubtask">
+                            <option value="">Pilih Sub-Tahapan untuk dikerjakan selanjutnya</option>
+                        </select>
+                        <small id="nextPlanInfo" style="color: #7f8c8d; margin-top: 5px; display: block;"></small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="nextPlan">Detail Rencana Selanjutnya</label>
+                        <textarea id="nextPlan" placeholder="Jelaskan rencana detail untuk hari berikutnya"></textarea>
                     </div>
                     
                     <div class="form-group">
@@ -1203,7 +1569,8 @@
                         </div>
                         
                         <div class="image-preview-container" id="imagePreviewContainer">
-                            </div>
+                            <!-- Image previews will be added here dynamically -->
+                        </div>
                     </div>
                     
                     <div class="button-group">
@@ -1218,6 +1585,9 @@
                         <input type="text" id="searchLogs" placeholder="Cari log...">
                         <select id="filterMilestone">
                             <option value="">Semua Tahapan Utama</option>
+                        </select>
+                        <select id="filterMember">
+                            <option value="">Semua Anggota</option>
                         </select>
                         <select id="filterDate">
                             <option value="">Semua Tanggal</option>
@@ -1257,6 +1627,58 @@
                     </div>
                 </section>
             </div>
+        </div>
+        
+        <div class="tab-content" id="team-monitoring-tab">
+            <section class="team-monitoring-section">
+                <h2>Monitoring Kinerja Tim & Penalty System</h2>
+                <p>Pantau produktivitas dan kualitas kontribusi setiap anggota tim dengan sistem anti-klaim dan penalty.</p>
+                
+                <div class="search-filter-bar">
+                    <select id="filterTeamMember">
+                        <option value="">Semua Anggota</option>
+                    </select>
+                    <select id="filterTeamDate">
+                        <option value="">Semua Periode</option>
+                        <option value="week">Minggu Ini</option>
+                        <option value="month">Bulan Ini</option>
+                        <option value="quarter">3 Bulan Terakhir</option>
+                    </select>
+                    <button id="refreshTeamStats" class="btn-primary" type="button">Refresh Data</button>
+                </div>
+                
+                <!-- Penalty Dashboard -->
+                <div class="penalty-dashboard">
+                    <h3>Performance Score & Penalties</h3>
+                    <div class="performance-cards" id="performanceCards">
+                        <div class="empty-state">
+                            <i class="fas fa-chart-line"></i>
+                            <p>Belum ada data performance. Isi log harian terlebih dahulu.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="teamMonitoringStats">
+                    <div class="empty-state">
+                        <i class="fas fa-users"></i>
+                        <p>Belum ada data untuk ditampilkan. Isi timeline project dan log harian terlebih dahulu.</p>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="analytics-section">
+                <h2>Distribusi Pekerjaan Tim</h2>
+                <div class="chart-grid-container">
+                    <div class="chart-container">
+                        <h3>Distribusi Log per Anggota</h3>
+                        <canvas id="teamDistributionChart" width="400" height="200"></canvas>
+                    </div>
+                    <div class="chart-container">
+                        <h3>Kualitas Konten Log</h3>
+                        <canvas id="contentQualityChart" width="400" height="200"></canvas>
+                    </div>
+                </div>
+            </section>
         </div>
         
         <div class="tab-content" id="analytics-tab">
@@ -1304,57 +1726,7 @@
                     </div>
                 </div>
             </section>
-            </div>
-
-        <div class="tab-content" id="report-tab">
-            <section class="report-section">
-                <h2>Laporan Project & Compliance</h2>
-                <div class="button-group">
-                    <button id="printReport" class="btn-primary" type="button">Cetak Laporan</button>
-                </div>
-
-                <h3>Ringkasan Kepatuhan (Compliance)</h3>
-                <div id="complianceReportSummary">
-                    <div class="compliance-indicator">
-                        <span class="compliance-badge compliance-danger" id="reportComplianceBadge">BELUM ADA DATA</span>
-                        <span id="reportComplianceText">Harap isi data timeline dan log harian untuk membuat laporan.</span>
-                    </div>
-                </div>
-                
-                <div class="analytics-grid">
-                    <div class="metric-card">
-                        <h3>Progress Keseluruhan</h3>
-                        <div class="metric-value" id="progressCompliance">--</div>
-                        <div class="metric-trend info">%</div>
-                    </div>
-                    <div class="metric-card">
-                        <h3>Total Jam Kerja</h3>
-                        <div class="metric-value" id="totalHoursReport">--</div>
-                        <div class="metric-trend info">Jam</div>
-                    </div>
-                    <div class="metric-card">
-                        <h3>Rata-rata Jam/Hari Kerja</h3>
-                        <div class="metric-value" id="avgHoursReport">--</div>
-                        <div class="metric-trend info">Jam</div>
-                    </div>
-                    <div class="metric-card">
-                        <h3>Total Evidence</h3>
-                        <div class="metric-value" id="totalEvidenceReport">--</div>
-                        <div class="metric-trend info">Files</div>
-                    </div>
-                </div>
-
-                <h3>Detail Kepatuhan Per Tahapan</h3>
-                <div class="compliance-report" id="milestoneComplianceDetail">
-                    <p class="empty-state">Belum ada tahapan project untuk dianalisis.</p>
-                </div>
-
-                <h3>Log Harian Lengkap</h3>
-                <div id="fullLogReport" class="log-list" style="max-height: 800px;">
-                    <p class="empty-state">Belum ada data log harian untuk ditampilkan.</p>
-                </div>
-            </section>
-            </div>
+        </div>
 
         <div class="tab-content" id="settings-tab">
             <div class="main-content">
@@ -1373,6 +1745,11 @@
                             <option value="30">Setiap 30 menit</option>
                             <option value="0">Nonaktif</option>
                         </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="contentQualityThreshold">Threshold Kualitas Konten (%)</label>
+                        <input type="number" id="contentQualityThreshold" min="0" max="100" value="70">
+                        <small>Nilai di bawah threshold akan mengurangi jam kerja yang dihitung</small>
                     </div>
                     <div class="button-group">
                         <button id="resetSettings" class="btn-danger" type="button">Reset Pengaturan</button>
@@ -1426,14 +1803,24 @@
             milestones: [{ 
                 id: 'm1', 
                 name: 'Inisiasi', 
-                date: '', // Main milestone deadline
+                date: '',
                 progress: 0, 
-                subtasks: [{ subId: 's1', name: 'Define Scope', progress: 0, deadline: '' }] 
+                subtasks: [{ 
+                    subId: 's1', 
+                    name: 'Define Scope', 
+                    progress: 0, 
+                    deadline: '',
+                    owner: null,
+                    lastWorker: null,
+                    allowedContributors: [],
+                    maxProgressPerMember: 100,
+                    currentContributions: {}
+                }] 
             }]
         };
 
         let dailyLogs = JSON.parse(localStorage.getItem('dailyLogs')) || [];
-        let uploadedFiles = []; // Temp storage for images in log form
+        let uploadedFiles = [];
         
         // Counters for unique IDs
         let currentMilestoneId = localStorage.getItem('currentMilestoneId') ? parseInt(localStorage.getItem('currentMilestoneId')) : 2;
@@ -1441,18 +1828,584 @@
         let currentMemberId = localStorage.getItem('currentMemberId') ? parseInt(localStorage.getItem('currentMemberId')) : 2;
         let currentLogId = localStorage.getItem('currentLogId') ? parseInt(localStorage.getItem('currentLogId')) : 1;
 
-        // Chart instances for destruction on tab change
+        // Chart instances
         let progressChartInstance = null;
         let workDistributionChartInstance = null;
         let activityChartInstance = null;
         let priorityChartInstance = null;
+        let teamDistributionChartInstance = null;
+        let contentQualityChartInstance = null;
 
+        // Action verbs for content quality analysis
+        const ACTION_VERBS = ['implementasi', 'analisis', 'menguji', 'dokumentasi', 'integrasi', 'desain', 'revisi', 'debugging', 'deploy', 'konfigurasi', 'mengerjakan', 'menyelesaikan', 'membuat', 'riset'];
+
+        // Enhanced Template milestones with detailed methodologies
+        const templateMilestones = {
+            waterfall: [
+                { name: 'Requirements Analysis', date: '', subtasks: [
+                    { name: 'Gather User Requirements', deadline: '' },
+                    { name: 'Define Functional Specs', deadline: '' },
+                    { name: 'Create Requirements Document', deadline: '' },
+                    { name: 'Stakeholder Approval', deadline: '' }
+                ]},
+                { name: 'System Design', date: '', subtasks: [
+                    { name: 'Architecture Design', deadline: '' },
+                    { name: 'Database Design', deadline: '' },
+                    { name: 'Interface Design', deadline: '' },
+                    { name: 'Technical Specification', deadline: '' }
+                ]},
+                { name: 'Implementation', date: '', subtasks: [
+                    { name: 'Coding & Development', deadline: '' },
+                    { name: 'Unit Testing', deadline: '' },
+                    { name: 'Code Review', deadline: '' },
+                    { name: 'Integration', deadline: '' }
+                ]},
+                { name: 'Testing', date: '', subtasks: [
+                    { name: 'System Testing', deadline: '' },
+                    { name: 'Integration Testing', deadline: '' },
+                    { name: 'User Acceptance Testing', deadline: '' },
+                    { name: 'Bug Fixing', deadline: '' }
+                ]},
+                { name: 'Deployment', date: '', subtasks: [
+                    { name: 'Production Deployment', deadline: '' },
+                    { name: 'User Training', deadline: '' },
+                    { name: 'Documentation Delivery', deadline: '' }
+                ]},
+                { name: 'Maintenance', date: '', subtasks: [
+                    { name: 'Bug Support', deadline: '' },
+                    { name: 'System Updates', deadline: '' },
+                    { name: 'Performance Monitoring', deadline: '' }
+                ]}
+            ],
+            scrum: [
+                { name: 'Sprint 1 - Foundation', date: '', subtasks: [
+                    { name: 'Product Backlog Creation', deadline: '' },
+                    { name: 'Sprint Planning', deadline: '' },
+                    { name: 'Setup Development Environment', deadline: '' },
+                    { name: 'Core Architecture', deadline: '' }
+                ]},
+                { name: 'Sprint 2 - Core Features', date: '', subtasks: [
+                    { name: 'User Authentication', deadline: '' },
+                    { name: 'Database Implementation', deadline: '' },
+                    { name: 'Basic UI Components', deadline: '' },
+                    { name: 'Sprint Review & Retrospective', deadline: '' }
+                ]},
+                { name: 'Sprint 3 - Feature Development', date: '', subtasks: [
+                    { name: 'Main Feature Implementation', deadline: '' },
+                    { name: 'API Development', deadline: '' },
+                    { name: 'Integration Testing', deadline: '' },
+                    { name: 'Sprint Review & Retrospective', deadline: '' }
+                ]},
+                { name: 'Sprint 4 - Enhancement', date: '', subtasks: [
+                    { name: 'Advanced Features', deadline: '' },
+                    { name: 'Performance Optimization', deadline: '' },
+                    { name: 'Security Implementation', deadline: '' },
+                    { name: 'Sprint Review & Retrospective', deadline: '' }
+                ]},
+                { name: 'Sprint 5 - Polish & Release', date: '', subtasks: [
+                    { name: 'Final Testing', deadline: '' },
+                    { name: 'Bug Fixing', deadline: '' },
+                    { name: 'Documentation', deadline: '' },
+                    { name: 'Production Release', deadline: '' }
+                ]}
+            ],
+            prototype: [
+                { name: 'Initial Requirements', date: '', subtasks: [
+                    { name: 'Stakeholder Interviews', deadline: '' },
+                    { name: 'Requirement Documentation', deadline: '' },
+                    { name: 'Feasibility Study', deadline: '' }
+                ]},
+                { name: 'Quick Design', date: '', subtasks: [
+                    { name: 'Rapid Prototyping', deadline: '' },
+                    { name: 'UI/UX Mockups', deadline: '' },
+                    { name: 'Basic Architecture', deadline: '' }
+                ]},
+                { name: 'Prototype Development', date: '', subtasks: [
+                    { name: 'Core Functionality', deadline: '' },
+                    { name: 'User Interface', deadline: '' },
+                    { name: 'Basic Data Flow', deadline: '' }
+                ]},
+                { name: 'User Evaluation', date: '', subtasks: [
+                    { name: 'User Testing Sessions', deadline: '' },
+                    { name: 'Feedback Collection', deadline: '' },
+                    { name: 'Requirement Refinement', deadline: '' }
+                ]},
+                { name: 'Refinement Iteration', date: '', subtasks: [
+                    { name: 'Prototype Improvement', deadline: '' },
+                    { name: 'Additional Features', deadline: '' },
+                    { name: 'Performance Enhancement', deadline: '' }
+                ]},
+                { name: 'Final Product', date: '', subtasks: [
+                    { name: 'Complete Development', deadline: '' },
+                    { name: 'Final Testing', deadline: '' },
+                    { name: 'Deployment', deadline: '' }
+                ]}
+            ],
+            rad: [
+                { name: 'Requirements Planning', date: '', subtasks: [
+                    { name: 'Rapid Requirements Gathering', deadline: '' },
+                    { name: 'Scope Definition', deadline: '' },
+                    { name: 'Project Planning', deadline: '' }
+                ]},
+                { name: 'User Design', date: '', subtasks: [
+                    { name: 'Workshop Sessions', deadline: '' },
+                    { name: 'Prototype Development', deadline: '' },
+                    { name: 'User Feedback', deadline: '' },
+                    { name: 'Design Iteration', deadline: '' }
+                ]},
+                { name: 'Rapid Construction', date: '', subtasks: [
+                    { name: 'Component Development', deadline: '' },
+                    { name: 'Continuous Integration', deadline: '' },
+                    { name: 'Automated Testing', deadline: '' },
+                    { name: 'Feature Completion', deadline: '' }
+                ]},
+                { name: 'Cutover', date: '', subtasks: [
+                    { name: 'Final Testing', deadline: '' },
+                    { name: 'Data Conversion', deadline: '' },
+                    { name: 'User Training', deadline: '' },
+                    { name: 'System Deployment', deadline: '' }
+                ]}
+            ],
+            spiral: [
+                { name: 'Cycle 1 - Planning & Objectives', date: '', subtasks: [
+                    { name: 'Requirement Analysis', deadline: '' },
+                    { name: 'Objective Setting', deadline: '' },
+                    { name: 'Constraint Identification', deadline: '' }
+                ]},
+                { name: 'Cycle 1 - Risk Analysis', date: '', subtasks: [
+                    { name: 'Risk Identification', deadline: '' },
+                    { name: 'Risk Assessment', deadline: '' },
+                    { name: 'Risk Mitigation Planning', deadline: '' }
+                ]},
+                { name: 'Cycle 1 - Engineering', date: '', subtasks: [
+                    { name: 'Prototype Development', deadline: '' },
+                    { name: 'Core Features', deadline: '' },
+                    { name: 'Initial Testing', deadline: '' }
+                ]},
+                { name: 'Cycle 1 - Evaluation', date: '', subtasks: [
+                    { name: 'Customer Evaluation', deadline: '' },
+                    { name: 'Feedback Analysis', deadline: '' },
+                    { name: 'Next Cycle Planning', deadline: '' }
+                ]},
+                { name: 'Cycle 2 - Enhanced Features', date: '', subtasks: [
+                    { name: 'Advanced Development', deadline: '' },
+                    { name: 'Risk Reassessment', deadline: '' },
+                    { name: 'Quality Assurance', deadline: '' }
+                ]},
+                { name: 'Final Cycle - Deployment', date: '', subtasks: [
+                    { name: 'Final Implementation', deadline: '' },
+                    { name: 'System Integration', deadline: '' },
+                    { name: 'Production Release', deadline: '' }
+                ]}
+            ],
+            kanban: [
+                { name: 'Backlog Management', date: '', subtasks: [
+                    { name: 'Requirement Collection', deadline: '' },
+                    { name: 'Priority Setting', deadline: '' },
+                    { name: 'Backlog Grooming', deadline: '' }
+                ]},
+                { name: 'Ready for Development', date: '', subtasks: [
+                    { name: 'Task Breakdown', deadline: '' },
+                    { name: 'Estimation', deadline: '' },
+                    { name: 'Dependency Analysis', deadline: '' }
+                ]},
+                { name: 'In Progress', date: '', subtasks: [
+                    { name: 'Continuous Development', deadline: '' },
+                    { name: 'Daily Progress', deadline: '' },
+                    { name: 'Issue Resolution', deadline: '' }
+                ]},
+                { name: 'Review', date: '', subtasks: [
+                    { name: 'Code Review', deadline: '' },
+                    { name: 'Quality Check', deadline: '' },
+                    { name: 'Testing', deadline: '' }
+                ]},
+                { name: 'Done', date: '', subtasks: [
+                    { name: 'Deployment', deadline: '' },
+                    { name: 'Documentation', deadline: '' },
+                    { name: 'Customer Acceptance', deadline: '' }
+                ]}
+            ]
+        };
+
+        // --- Penalty System ---
+        class PenaltySystem {
+            constructor() {
+                this.penaltyRules = {
+                    missedDeadline: -10,      // Poin penalty telat deadline
+                    lowQuality: -5,           // Konten quality < 60%
+                    incompleteWork: -15,      // Tidak selesai tepat waktu
+                    noEvidence: -8,           // Log tanpa bukti
+                    noNextPlan: -5,           // Tidak ada rencana selanjutnya
+                    lowProductivity: -7       // Produktivitas rendah (< 2 jam/hari)
+                };
+                this.memberScores = JSON.parse(localStorage.getItem('memberScores')) || {};
+                this.penaltyHistory = JSON.parse(localStorage.getItem('penaltyHistory')) || {};
+            }
+            
+            initializeMemberScores() {
+                projectData.teamMembers.forEach(member => {
+                    if (!this.memberScores[member.id]) {
+                        this.memberScores[member.id] = 100; // Score awal
+                    }
+                    if (!this.penaltyHistory[member.id]) {
+                        this.penaltyHistory[member.id] = [];
+                    }
+                });
+                this.saveScores();
+            }
+            
+            calculateDailyPenalties() {
+                const today = new Date().toISOString().split('T')[0];
+                
+                // Cek deadline yang terlewat
+                projectData.milestones.forEach(milestone => {
+                    milestone.subtasks.forEach(subtask => {
+                        if (subtask.deadline && subtask.deadline < today && subtask.progress < 100) {
+                            if (subtask.owner) {
+                                this.applyPenalty(subtask.owner, 'missedDeadline', 
+                                    `Missed deadline untuk "${subtask.name}"`);
+                            }
+                            if (subtask.lastWorker && subtask.lastWorker !== subtask.owner) {
+                                this.applyPenalty(subtask.lastWorker, 'incompleteWork',
+                                    `Tidak menyelesaikan "${subtask.name}" sebelum deadline`);
+                            }
+                        }
+                    });
+                });
+                
+                // Cek log hari ini
+                const todayLogs = dailyLogs.filter(log => log.date === today);
+                todayLogs.forEach(log => {
+                    if (log.evidence.length === 0) {
+                        this.applyPenalty(log.memberId, 'noEvidence',
+                            `Log tanpa bukti untuk "${this.getSubtaskName(log.milestoneId, log.subId)}"`);
+                    }
+                    if (log.relevanceScore < 60) {
+                        this.applyPenalty(log.memberId, 'lowQuality',
+                            `Kualitas konten rendah (${log.relevanceScore}%)`);
+                    }
+                    if (!log.nextPlan || log.nextPlan.trim() === '') {
+                        this.applyPenalty(log.memberId, 'noNextPlan',
+                            `Tidak ada rencana kerja selanjutnya`);
+                    }
+                    if (log.hours < 2) {
+                        this.applyPenalty(log.memberId, 'lowProductivity',
+                            `Produktivitas rendah (${log.hours} jam)`);
+                    }
+                });
+                
+                this.saveScores();
+                return this.memberScores;
+            }
+            
+            applyPenalty(memberId, penaltyType, reason) {
+                if (!this.memberScores[memberId]) {
+                    this.memberScores[memberId] = 100;
+                }
+                
+                const penaltyPoints = this.penaltyRules[penaltyType];
+                this.memberScores[memberId] += penaltyPoints;
+                this.memberScores[memberId] = Math.max(0, this.memberScores[memberId]);
+                
+                // Record penalty history
+                this.penaltyHistory[memberId].push({
+                    date: new Date().toISOString().split('T')[0],
+                    type: penaltyType,
+                    points: penaltyPoints,
+                    reason: reason,
+                    currentScore: this.memberScores[memberId]
+                });
+                
+                // Update UI
+                this.updatePenaltyDisplay();
+                
+                return penaltyPoints;
+            }
+            
+            getMemberRank(memberId) {
+                const score = this.memberScores[memberId] || 100;
+                if (score >= 90) return { rank: 'A', class: 'score-excellent' };
+                if (score >= 80) return { rank: 'B', class: 'score-good' };
+                if (score >= 70) return { rank: 'C', class: 'score-fair' };
+                return { rank: 'D', class: 'score-poor' };
+            }
+            
+            updatePenaltyDisplay() {
+                const container = document.getElementById('performanceCards');
+                if (!container) return;
+                
+                container.innerHTML = '';
+                
+                projectData.teamMembers.forEach(member => {
+                    const score = this.memberScores[member.id] || 100;
+                    const rankInfo = this.getMemberRank(member.id);
+                    const penalties = this.penaltyHistory[member.id] || [];
+                    const recentPenalties = penalties.slice(-5).reverse(); // Show last 5 penalties
+                    
+                    const card = document.createElement('div');
+                    card.classList.add('performance-card');
+                    card.innerHTML = `
+                        <div class="member-name"><strong>${member.name}</strong></div>
+                        <div class="member-score ${rankInfo.class}">${score}</div>
+                        <div class="member-rank">Rank: ${rankInfo.rank}</div>
+                        <div class="penalty-list">
+                            ${recentPenalties.length > 0 ? 
+                                recentPenalties.map(p => 
+                                    `<div class="penalty-item">${p.reason}: ${p.points}</div>`
+                                ).join('') : 
+                                '<div style="text-align: center; color: #7f8c8d; font-style: italic;">No penalties</div>'
+                            }
+                        </div>
+                    `;
+                    container.appendChild(card);
+                });
+            }
+            
+            saveScores() {
+                localStorage.setItem('memberScores', JSON.stringify(this.memberScores));
+                localStorage.setItem('penaltyHistory', JSON.stringify(this.penaltyHistory));
+            }
+            
+            getSubtaskName(milestoneId, subId) {
+                const milestone = projectData.milestones.find(m => m.id === milestoneId);
+                if (milestone) {
+                    const subtask = milestone.subtasks.find(s => s.subId === subId);
+                    return subtask ? subtask.name : 'Unknown Subtask';
+                }
+                return 'Unknown Subtask';
+            }
+        }
+
+        const penaltySystem = new PenaltySystem();
+
+        // --- Content Quality Adjusted Hours Calculation ---
+        function calculateAdjustedHours(originalHours, relevanceScore, qualityThreshold = 70) {
+            if (relevanceScore >= qualityThreshold) {
+                return originalHours; // No adjustment needed
+            }
+            
+            // Calculate adjustment factor based on how far below threshold
+            const adjustmentFactor = relevanceScore / qualityThreshold;
+            const adjustedHours = originalHours * adjustmentFactor;
+            
+            return Math.max(adjustedHours * 0.5, adjustedHours); // Minimum 50% of adjusted hours
+        }
+
+        function updateAdjustedHoursDisplay() {
+            const hoursInput = document.getElementById('hoursWorked');
+            const activitiesInput = document.getElementById('activities');
+            const infoElement = document.getElementById('adjustedHoursInfo');
+            const qualityWarning = document.getElementById('contentQualityWarning');
+            
+            const hours = parseFloat(hoursInput.value) || 0;
+            const activities = activitiesInput.value.trim();
+            
+            if (hours > 0 && activities) {
+                const { relevanceScore } = checkContentRelevance('', '', activities);
+                const qualityThreshold = parseInt(document.getElementById('contentQualityThreshold').value) || 70;
+                const adjustedHours = calculateAdjustedHours(hours, relevanceScore, qualityThreshold);
+                
+                if (relevanceScore < qualityThreshold) {
+                    const reduction = hours - adjustedHours;
+                    infoElement.textContent = `⚠️ Jam kerja akan disesuaikan: ${hours} → ${adjustedHours.toFixed(1)} jam (Berkurang ${reduction.toFixed(1)} jam)`;
+                    infoElement.style.display = 'block';
+                    
+                    qualityWarning.textContent = `Kualitas konten rendah (${relevanceScore}%). Tambahkan detail lebih spesifik untuk meningkatkan skor.`;
+                    qualityWarning.style.display = 'block';
+                } else {
+                    infoElement.style.display = 'none';
+                    qualityWarning.style.display = 'none';
+                }
+            } else {
+                infoElement.style.display = 'none';
+                qualityWarning.style.display = 'none';
+            }
+        }
+
+        // --- Enhanced Subtask Management ---
+        function getSubtaskById(subtaskId) {
+            for (const milestone of projectData.milestones) {
+                const subtask = milestone.subtasks.find(s => s.subId === subtaskId);
+                if (subtask) return { milestone, subtask };
+            }
+            return null;
+        }
+
+        function claimSubtask(subtaskId, memberId) {
+            const result = getSubtaskById(subtaskId);
+            if (!result) return { success: false, message: 'Subtask tidak ditemukan' };
+            
+            const { milestone, subtask } = result;
+            
+            // Cek apakah sudah 100% selesai
+            if (subtask.progress >= 100) {
+                return { 
+                    success: false, 
+                    message: `Tugas "${subtask.name}" sudah 100% selesai dan tidak bisa diklaim lagi!` 
+                };
+            }
+            
+            // Cek apakah sudah ada owner
+            if (subtask.owner && subtask.owner !== memberId) {
+                if (subtask.progress < 100) {
+                    // Bisa diklaim sebagian dengan persetujuan
+                    const ownerName = projectData.teamMembers.find(m => m.id === subtask.owner)?.name || 'Unknown';
+                    const confirmed = confirm(
+                        `Tugas "${subtask.name}" sudah diklaim oleh ${ownerName}.\n\nProgress saat ini: ${subtask.progress}%\nMaksimal kontribusi Anda: ${100 - subtask.progress}%\n\nLanjutkan?`
+                    );
+                    if (!confirmed) {
+                        return { success: false, message: 'Klaim dibatalkan' };
+                    }
+                    
+                    if (!subtask.allowedContributors.includes(memberId)) {
+                        subtask.allowedContributors.push(memberId);
+                    }
+                    subtask.maxProgressPerMember = 100 - subtask.progress;
+                    
+                    return { 
+                        success: true, 
+                        message: `Anda bisa berkontribusi maksimal ${100 - subtask.progress}% untuk tugas ini`,
+                        maxProgress: 100 - subtask.progress
+                    };
+                }
+            } else {
+                // Klaim sebagai owner
+                subtask.owner = memberId;
+                if (!subtask.allowedContributors.includes(memberId)) {
+                    subtask.allowedContributors.push(memberId);
+                }
+                subtask.maxProgressPerMember = 100;
+                
+                return { 
+                    success: true, 
+                    message: `Anda sekarang adalah owner tugas "${subtask.name}"`,
+                    maxProgress: 100
+                };
+            }
+            
+            return { success: false, message: 'Tidak bisa mengklaim tugas ini' };
+        }
+
+        function updateSubtaskProgress(subtaskId, memberId, newProgress) {
+            const result = getSubtaskById(subtaskId);
+            if (!result) return { success: false, message: 'Subtask tidak ditemukan' };
+            
+            const { milestone, subtask } = result;
+            
+            // Validasi ownership dan batasan progress
+            if (!subtask.allowedContributors.includes(memberId)) {
+                return { success: false, message: 'Anda tidak diizinkan mengerjakan tugas ini' };
+            }
+            
+            // Cek batasan progress untuk kontributor non-owner
+            if (subtask.owner !== memberId) {
+                const currentMemberProgress = subtask.currentContributions[memberId] || 0;
+                const maxAllowedProgress = subtask.maxProgressPerMember || 100;
+                
+                if (currentMemberProgress + (newProgress - subtask.progress) > maxAllowedProgress) {
+                    return { 
+                        success: false, 
+                        message: `Anda hanya bisa berkontribusi maksimal ${maxAllowedProgress}% untuk tugas ini` 
+                    };
+                }
+            }
+            
+            // Update progress
+            const oldProgress = subtask.progress;
+            subtask.progress = Math.min(100, Math.max(subtask.progress, newProgress));
+            subtask.lastWorker = memberId;
+            subtask.lastUpdate = new Date().toISOString().split('T')[0];
+            
+            // Update contributions tracking
+            if (!subtask.currentContributions[memberId]) {
+                subtask.currentContributions[memberId] = 0;
+            }
+            subtask.currentContributions[memberId] += (newProgress - oldProgress);
+            
+            // Update milestone progress
+            milestone.progress = calculateMilestoneProgress(milestone.subtasks);
+            
+            return { success: true, message: 'Progress berhasil diupdate' };
+        }
+
+        function validateNextPlan(memberId, plannedSubtaskId) {
+            if (!plannedSubtaskId) {
+                return { valid: false, message: 'Pilih sub-tahapan untuk rencana selanjutnya' };
+            }
+            
+            const result = getSubtaskById(plannedSubtaskId);
+            if (!result) return { valid: false, message: 'Subtask tidak ditemukan' };
+            
+            const { subtask } = result;
+            
+            // Validasi 1: Deadline harus realistic
+            const today = new Date();
+            const deadline = new Date(subtask.deadline);
+            const daysUntilDeadline = Math.ceil((deadline - today) / (1000 * 60 * 60 * 24));
+            const estimatedHours = calculateEstimatedHours(subtask);
+            
+            if (daysUntilDeadline < estimatedHours / 8) { // Asumsi 8 jam/hari
+                return { 
+                    valid: false, 
+                    message: `Deadline tidak realistic! Butuh ~${estimatedHours} jam, sisa ${daysUntilDeadline} hari` 
+                };
+            }
+            
+            // Validasi 2: Cek dependencies
+            const dependencies = getSubtaskDependencies(plannedSubtaskId);
+            const incompleteDeps = dependencies.filter(dep => dep.progress < 100);
+            
+            if (incompleteDeps.length > 0) {
+                return { 
+                    valid: false, 
+                    message: `Tugas ini memiliki ${incompleteDeps.length} dependencies yang belum selesai!` 
+                };
+            }
+            
+            // Validasi 3: Cek kapasitas anggota
+            const currentWorkload = calculateCurrentWorkload(memberId);
+            if (currentWorkload + estimatedHours > 40) { // Maks 40 jam/minggu
+                return { 
+                    valid: false, 
+                    message: `Workload berlebihan! Kurangi rencana kerja. Estimasi: ${estimatedHours} jam` 
+                };
+            }
+            
+            return { valid: true, message: 'Rencana valid' };
+        }
+
+        function calculateEstimatedHours(subtask) {
+            // Simple estimation based on task complexity
+            const complexity = subtask.name.length / 10; // Basic complexity measure
+            return Math.max(2, Math.min(16, complexity * 8)); // 2-16 hours range
+        }
+
+        function getSubtaskDependencies(subtaskId) {
+            // Simple dependency check - in real implementation, this would be more complex
+            const result = getSubtaskById(subtaskId);
+            if (!result) return [];
+            
+            const { milestone } = result;
+            const currentIndex = milestone.subtasks.findIndex(s => s.subId === subtaskId);
+            
+            // Assume previous subtasks in the same milestone are dependencies
+            return milestone.subtasks.slice(0, currentIndex);
+        }
+
+        function calculateCurrentWorkload(memberId) {
+            const today = new Date();
+            const oneWeekAgo = new Date(today.getTime() - 7 * 24 * 60 * 60 * 1000);
+            
+            const recentLogs = dailyLogs.filter(log => {
+                const logDate = new Date(log.date);
+                return log.memberId === memberId && logDate >= oneWeekAgo;
+            });
+            
+            return recentLogs.reduce((total, log) => total + log.hours, 0);
+        }
 
         // --- Utility Functions ---
 
-        /**
-         * Menampilkan notifikasi singkat.
-         */
         function showNotification(message, type) {
             const notif = document.getElementById('notification');
             notif.textContent = message;
@@ -1462,9 +2415,6 @@
             }, 3000);
         }
 
-        /**
-         * Menyimpan semua data ke localStorage.
-         */
         function saveAllData() {
             localStorage.setItem('projectData', JSON.stringify(projectData));
             localStorage.setItem('dailyLogs', JSON.stringify(dailyLogs));
@@ -1472,12 +2422,8 @@
             localStorage.setItem('currentSubtaskId', currentSubtaskId);
             localStorage.setItem('currentMemberId', currentMemberId);
             localStorage.setItem('currentLogId', currentLogId);
-            // console.log("Data saved to localStorage.");
         }
 
-        /**
-         * Mengubah tanggal ke format yang lebih mudah dibaca.
-         */
         function formatDate(dateString) {
             if (!dateString) return '';
             const date = new Date(dateString.replace(/-/g, '/')); 
@@ -1485,36 +2431,171 @@
             return date.toLocaleDateString('id-ID', options);
         }
 
-        /**
-         * Menghitung selisih hari antara dua tanggal.
-         */
-        const daysBetween = (start, end) => {
+        function daysBetween(start, end) {
             if (!start || !end) return 0;
-            const diffTime = Math.abs(new Date(start.replace(/-/g, '/')) - new Date(end.replace(/-/g, '/'))); // Swap order to avoid negative time in edge cases
+            const diffTime = Math.abs(new Date(start.replace(/-/g, '/')) - new Date(end.replace(/-/g, '/')));
             const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
             return diffDays;
-        };
+        }
         
-        /**
-         * Menghitung progres milestone utama berdasarkan rata-rata progres subtasks.
-         */
         function calculateMilestoneProgress(subtasks) {
             if (!subtasks || subtasks.length === 0) return 0;
             const totalProgress = subtasks.reduce((sum, s) => sum + s.progress, 0);
             return Math.round(totalProgress / subtasks.length);
         }
 
+        // Content Quality Analysis Functions
+        function tokenize(text) {
+            if (!text) return [];
+            return text.toLowerCase().replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "")
+                       .replace(/\s{2,}/g," ")
+                       .split(' ')
+                       .filter(word => word.length > 2);
+        }
+
+        function checkContentRelevance(milestoneId, subId, activities) {
+            const logTokens = tokenize(activities);
+            let score = 0;
+            let feedback = [];
+
+            const milestone = projectData.milestones.find(m => m.id === milestoneId);
+            const subtask = milestone ? milestone.subtasks.find(s => s.subId === subId) : null;
+            
+            if (!milestone || !subtask) return { relevanceScore: 0, feedback: ['Data Tahapan tidak ditemukan.'] };
+
+            // 1. Kedalaman (Length - Max 30 Poin)
+            const length = activities.length;
+            if (length < 60) {
+                score += 0;
+                feedback.push(`- Deskripsi terlalu singkat (${length} karakter). Minimal disarankan adalah 60 karakter untuk detail yang memadai.`);
+            } else if (length < 150) {
+                score += 15;
+            } else if (length < 250) {
+                score += 25;
+            } else {
+                score += 30;
+            }
+
+            // 2. Keterkaitan Kata Kunci (Max 40 Poin)
+            const targetNames = tokenize(milestone.name + ' ' + subtask.name);
+            let keywordMatches = 0;
+            logTokens.forEach(token => {
+                if (targetNames.includes(token)) {
+                    keywordMatches++;
+                }
+            });
+
+            if (keywordMatches === 0) {
+                feedback.push(`- Kata kunci tidak relevan. Pastikan log menyebutkan topik utama Tahapan/Sub-Tahapan.`);
+            }
+            score += Math.min(40, keywordMatches * 10);
+
+            // 3. Kata Kerja Detail (Action Verbs - Max 30 Poin)
+            let actionVerbMatches = 0;
+            logTokens.forEach(token => {
+                if (ACTION_VERBS.includes(token)) {
+                    actionVerbMatches++;
+                }
+            });
+
+            if (actionVerbMatches === 0) {
+                 feedback.push(`- Kurang menunjukkan aksi nyata. Gunakan kata kerja spesifik seperti: ${ACTION_VERBS.slice(0, 5).join(', ')}...`);
+            }
+            score += Math.min(30, actionVerbMatches * 8);
+
+            const relevanceScore = Math.min(100, Math.round(score));
+            
+            if (relevanceScore < 70 && feedback.length === 0) {
+                 feedback.push(`- Konten dinilai kurang detail. Mohon tambahkan informasi spesifik mengenai kendala atau keputusan yang dibuat.`);
+            }
+
+            return { relevanceScore, feedback: Array.from(new Set(feedback)) };
+        }
+
+        // Team Performance Functions for Report
+        function calculateTeamPerformance() {
+            const stats = {};
+            
+            projectData.teamMembers.forEach(member => {
+                stats[member.id] = {
+                    name: member.name,
+                    role: member.role,
+                    totalLogs: 0,
+                    totalHours: 0,
+                    totalAdjustedHours: 0,
+                    avgQuality: 0,
+                    totalProgress: 0,
+                    lastActivity: null,
+                    performanceScore: penaltySystem.memberScores[member.id] || 100
+                };
+            });
+            
+            dailyLogs.forEach(log => {
+                if (!stats[log.memberId]) return;
+                
+                const qualityThreshold = parseInt(document.getElementById('contentQualityThreshold').value) || 70;
+                const adjustedHours = calculateAdjustedHours(log.hours, log.relevanceScore, qualityThreshold);
+                
+                stats[log.memberId].totalLogs++;
+                stats[log.memberId].totalHours += log.hours;
+                stats[log.memberId].totalAdjustedHours += adjustedHours;
+                stats[log.memberId].totalProgress += log.progress;
+                stats[log.memberId].avgQuality += log.relevanceScore || 0;
+                
+                if (!stats[log.memberId].lastActivity || new Date(log.date.replace(/-/g, '/')) > new Date(stats[log.memberId].lastActivity.replace(/-/g, '/'))) {
+                    stats[log.memberId].lastActivity = log.date;
+                }
+            });
+            
+            Object.keys(stats).forEach(memberId => {
+                if (stats[memberId].totalLogs > 0) {
+                    stats[memberId].avgQuality = Math.round(stats[memberId].avgQuality / stats[memberId].totalLogs);
+                    stats[memberId].avgProgress = Math.round(stats[memberId].totalProgress / stats[memberId].totalLogs);
+                    stats[memberId].hoursReduction = stats[memberId].totalHours - stats[memberId].totalAdjustedHours;
+                }
+            });
+            
+            return stats;
+        }
+
+        function findTopPerformers(stats) {
+            const members = Object.values(stats);
+            
+            if (members.length === 0) return null;
+            
+            const mostActive = members.reduce((prev, current) => 
+                (prev.totalLogs > current.totalLogs) ? prev : current
+            );
+            
+            const highestQuality = members.reduce((prev, current) => 
+                (prev.avgQuality > current.avgQuality) ? prev : current
+            );
+            
+            const mostHours = members.reduce((prev, current) => 
+                (prev.totalAdjustedHours > current.totalAdjustedHours) ? prev : current
+            );
+            
+            const bestPerformance = members.reduce((prev, current) => 
+                (prev.performanceScore > current.performanceScore) ? prev : current
+            );
+            
+            return {
+                mostActive,
+                highestQuality,
+                mostHours,
+                bestPerformance
+            };
+        }
+
         // --- Core Setup ---
         
-        /**
-         * Menghancurkan semua instance chart yang ada.
-         */
         function destroyCharts() {
             if (progressChartInstance) { progressChartInstance.destroy(); progressChartInstance = null; }
             if (workDistributionChartInstance) { workDistributionChartInstance.destroy(); workDistributionChartInstance = null; }
             if (activityChartInstance) { activityChartInstance.destroy(); activityChartInstance = null; }
             if (priorityChartInstance) { priorityChartInstance.destroy(); priorityChartInstance = null; }
-            // console.log("All chart instances destroyed.");
+            if (teamDistributionChartInstance) { teamDistributionChartInstance.destroy(); teamDistributionChartInstance = null; }
+            if (contentQualityChartInstance) { contentQualityChartInstance.destroy(); contentQualityChartInstance = null; }
         }
 
         function setupTabs() {
@@ -1523,12 +2604,10 @@
             tabs.forEach(tab => {
                 tab.addEventListener('click', function() {
                     
-                    // --- FIX: Destroy charts when LEAVING the Analytics tab ---
                     const currentlyActiveTab = document.querySelector('.tab.active');
                     if (currentlyActiveTab && currentlyActiveTab.getAttribute('data-tab') === 'analytics') {
                         destroyCharts(); 
                     }
-                    // --------------------------------------------------------
 
                     tabs.forEach(t => t.classList.remove('active'));
                     contents.forEach(c => c.classList.remove('active'));
@@ -1536,17 +2615,16 @@
                     const targetId = this.getAttribute('data-tab') + '-tab';
                     document.getElementById(targetId).classList.add('active');
 
-                    // Rerender specific components when their tab is opened
                     if (this.getAttribute('data-tab') === 'analytics') {
-                        // Re-render Analytics (which uses setTimeout internally for safety)
                         renderAnalytics(); 
                     } else if (this.getAttribute('data-tab') === 'log') {
                         renderLogList();
                         calculateOverallProgress();
                     } else if (this.getAttribute('data-tab') === 'timeline') {
                         renderTimeline();
-                    } else if (this.getAttribute('data-tab') === 'report') {
-                        renderReportData();
+                    } else if (this.getAttribute('data-tab') === 'team-monitoring') {
+                        renderTeamMonitoring();
+                        penaltySystem.updatePenaltyDisplay();
                     }
                 });
             });
@@ -1572,9 +2650,6 @@
             container.appendChild(memberDiv);
         }
 
-        /**
-         * Menambahkan input Sub-Tahapan (Subtask) ke dalam Milestone.
-         */
         function addSubtaskInput(milestoneId, subId = `s${currentSubtaskId++}`, name = '', deadline = '', progress = 0) {
             const container = document.querySelector(`.milestone-item[data-id="${milestoneId}"] .subtask-container`);
             if (!container) return;
@@ -1592,16 +2667,12 @@
             container.appendChild(subtaskDiv);
         }
 
-        /**
-         * Menambahkan input Tahapan Project (Milestone) ke form.
-         */
         function addMilestoneInput(id = `m${currentMilestoneId++}`, name = '', date = '', subtasks = [], isDefault = false) {
             const container = document.getElementById('milestoneContainer');
             const milestoneDiv = document.createElement('div');
             milestoneDiv.classList.add('milestone-item');
             milestoneDiv.setAttribute('data-id', id);
             
-            // Render Milestone Header
             milestoneDiv.innerHTML = `
                 <div class="milestone-header-inputs">
                     <input type="text" placeholder="Nama Tahapan Utama" class="milestone-name" value="${name}" required>
@@ -1610,49 +2681,38 @@
                 </div>
                 <h4>Sub-Tahapan:</h4>
                 <div class="subtask-container">
-                    </div>
+                </div>
                 <button type="button" class="add-subtask-btn" data-milestone-id="${id}">Tambah Sub-Tahapan</button>
             `;
             container.appendChild(milestoneDiv);
 
-            // Render Subtasks
             subtasks.forEach(s => addSubtaskInput(id, s.subId, s.name, s.deadline, s.progress));
             
-            // Ensure every newly added milestone has at least one subtask if none are provided
             if (subtasks.length === 0) {
                 addSubtaskInput(id, `s${currentSubtaskId++}`, 'New Task', '', 0);
             }
         }
 
-        /**
-         * Memuat data proyek yang tersimpan ke form.
-         */
         function loadProjectDataToForm() {
             document.getElementById('projectName').value = projectData.projectName;
             document.getElementById('projectDesc').value = projectData.projectDesc;
             document.getElementById('startDate').value = projectData.startDate;
             document.getElementById('endDate').value = projectData.endDate;
 
-            // Load Team Members
             const teamContainer = document.getElementById('teamMembersContainer');
             teamContainer.innerHTML = ''; 
             projectData.teamMembers.forEach(member => {
                 addMemberInput(member.name, member.email, member.role, member.id === '1');
             });
 
-            // Load Milestones and Subtasks
             const milestoneContainer = document.getElementById('milestoneContainer');
             milestoneContainer.innerHTML = ''; 
             projectData.milestones.forEach(milestone => {
-                // Determine if it's the initial default Milestone
                 const isDefault = milestone.id === 'm1' && milestone.subtasks.length === 1 && milestone.subtasks[0].subId === 's1';
                 addMilestoneInput(milestone.id, milestone.name, milestone.date, milestone.subtasks, isDefault);
             });
         }
 
-        /**
-         * Menyimpan data dari form timeline ke global state, termasuk Sub-Tahapan.
-         */
         function saveTimeline() {
             const name = document.getElementById('projectName').value.trim();
             const desc = document.getElementById('projectDesc').value.trim();
@@ -1664,7 +2724,6 @@
                 return;
             }
 
-            // 1. Get Team Members (Logic remains the same)
             const members = [];
             document.querySelectorAll('#teamMembersContainer .team-member').forEach(div => {
                 const memberName = div.querySelector('.member-name').value.trim();
@@ -1678,7 +2737,6 @@
                 }
             });
 
-            // 2. Get Milestones and Subtasks
             const milestones = [];
             let isValid = true;
             document.querySelectorAll('#milestoneContainer .milestone-item').forEach(milestoneDiv => {
@@ -1692,7 +2750,6 @@
                     return;
                 }
                 
-                // Collect Subtasks for this Milestone
                 const subtasks = [];
                 milestoneDiv.querySelectorAll('.subtask-item').forEach(subtaskDiv => {
                     const subId = subtaskDiv.getAttribute('data-subid');
@@ -1705,21 +2762,22 @@
                         return;
                     }
 
-                    // Preserve existing progress if it exists
                     const existingMilestone = projectData.milestones.find(m => m.id === milestoneId);
-                    let existingProgress = 0;
+                    let existingSubtask = null;
                     if (existingMilestone) {
-                        const existingSubtask = existingMilestone.subtasks.find(s => s.subId === subId);
-                        if (existingSubtask) {
-                            existingProgress = existingSubtask.progress;
-                        }
+                        existingSubtask = existingMilestone.subtasks.find(s => s.subId === subId);
                     }
 
                     subtasks.push({
                         subId: subId,
                         name: subName,
                         deadline: subDeadline,
-                        progress: existingProgress 
+                        progress: existingSubtask ? existingSubtask.progress : 0,
+                        owner: existingSubtask ? existingSubtask.owner : null,
+                        lastWorker: existingSubtask ? existingSubtask.lastWorker : null,
+                        allowedContributors: existingSubtask ? existingSubtask.allowedContributors : [],
+                        maxProgressPerMember: existingSubtask ? existingSubtask.maxProgressPerMember : 100,
+                        currentContributions: existingSubtask ? existingSubtask.currentContributions : {}
                     });
                 });
 
@@ -1729,7 +2787,6 @@
                     return;
                 }
                 
-                // Calculate main milestone progress based on new subtasks list
                 const mainProgress = calculateMilestoneProgress(subtasks);
 
                 milestones.push({
@@ -1743,13 +2800,15 @@
 
             if (!isValid) return;
 
-            // Update global projectData
             projectData.projectName = name;
             projectData.projectDesc = desc;
             projectData.startDate = start;
             projectData.endDate = end;
             projectData.teamMembers = members;
             projectData.milestones = milestones;
+
+            // Initialize penalty system for new members
+            penaltySystem.initializeMemberScores();
 
             saveAllData();
             renderTimeline();
@@ -1758,9 +2817,6 @@
             showNotification('Timeline Project berhasil disimpan!', 'success');
         }
 
-        /**
-         * Reset form timeline ke nilai default.
-         */
         function resetTimeline() {
             projectData = {
                 projectName: '',
@@ -1773,7 +2829,17 @@
                     name: 'Inisiasi', 
                     date: '', 
                     progress: 0, 
-                    subtasks: [{ subId: 's1', name: 'Define Scope', progress: 0, deadline: '' }] 
+                    subtasks: [{ 
+                        subId: 's1', 
+                        name: 'Define Scope', 
+                        progress: 0, 
+                        deadline: '',
+                        owner: null,
+                        lastWorker: null,
+                        allowedContributors: [],
+                        maxProgressPerMember: 100,
+                        currentContributions: {}
+                    }] 
                 }]
             };
             currentMilestoneId = 2;
@@ -1787,9 +2853,6 @@
             showNotification('Form Timeline telah direset.', 'info');
         }
 
-        /**
-         * Menampilkan timeline di preview section dengan Sub-Tahapan.
-         */
         function renderTimeline() {
             const previewContainer = document.getElementById('timelinePreview');
             previewContainer.innerHTML = '';
@@ -1804,7 +2867,6 @@
                 return;
             }
 
-            // Tambahkan Project Start
             previewContainer.innerHTML += `
                 <div class="timeline-item">
                     <div class="timeline-marker" style="background-color: var(--secondary); border-color: var(--secondary);"></div>
@@ -1816,7 +2878,6 @@
                 </div>
             `;
 
-            // Render Milestones (sorted by main deadline or milestone date)
             projectData.milestones
                 .sort((a, b) => {
                     if (!a.date) return 1;
@@ -1840,18 +2901,22 @@
                     const item = document.createElement('div');
                     item.classList.add('timeline-item');
                     
-                    // Render Subtasks
                     const subtaskHtml = milestone.subtasks
-                        .sort((a, b) => { // Sort subtasks by deadline
+                        .sort((a, b) => {
                             if (!a.deadline) return 1;
                             if (!b.deadline) return -1;
                             return new Date(a.deadline.replace(/-/g, '/')) - new Date(b.deadline.replace(/-/g, '/'))
                         })
                         .map(s => {
                             let subStatus = s.progress >= 100 ? 'status-completed' : s.progress > 0 ? 'status-inprogress' : 'status-pending';
+                            let ownerInfo = '';
+                            if (s.owner) {
+                                const owner = projectData.teamMembers.find(m => m.id === s.owner);
+                                ownerInfo = owner ? `<span class="ownership-badge">Owner: ${owner.name}</span>` : '';
+                            }
                             return `
                                 <div class="timeline-subtask-item">
-                                    <strong>${s.name} (${s.progress}%)</strong>
+                                    <strong>${s.name} (${s.progress}%) ${ownerInfo}</strong>
                                     <span class="timeline-date">Deadline: ${formatDate(s.deadline) || 'N/A'}</span>
                                     <span class="timeline-status ${subStatus}">${s.progress >= 100 ? 'Done' : s.progress > 0 ? 'In Progress' : 'Pending'}</span>
                                 </div>
@@ -1874,7 +2939,6 @@
                     previewContainer.appendChild(item);
                 });
 
-            // Tambahkan Project End
             previewContainer.innerHTML += `
                 <div class="timeline-item">
                     <div class="timeline-marker" style="background-color: var(--danger); border-color: var(--danger);"></div>
@@ -1887,9 +2951,6 @@
             `;
         }
 
-        /**
-         * Mengatur semua event listener untuk tab Timeline.
-         */
         function setupTimelineFormListeners() {
             loadProjectDataToForm();
 
@@ -1898,31 +2959,26 @@
             document.getElementById('saveTimeline').addEventListener('click', saveTimeline);
             document.getElementById('resetTimeline').addEventListener('click', resetTimeline);
 
-            // Event Delegation for dynamic member removal
             document.getElementById('teamMembersContainer').addEventListener('click', function(e) {
                 if (e.target && e.target.classList.contains('remove-member')) {
                     e.target.closest('.team-member').remove();
                 }
             });
 
-            // Event Delegation for dynamic Milestone removal
             document.getElementById('milestoneContainer').addEventListener('click', function(e) {
                 if (e.target && e.target.classList.contains('remove-milestone')) {
                     e.target.closest('.milestone-item').remove();
                 }
                 
-                // Event Delegation for adding Subtask
                 if (e.target && e.target.classList.contains('add-subtask-btn')) {
                     const milestoneId = e.target.getAttribute('data-milestone-id');
                     addSubtaskInput(milestoneId, `s${currentSubtaskId++}`, 'New Task', '', 0);
                 }
 
-                // Event Delegation for removing Subtask
                 if (e.target && e.target.classList.contains('remove-subtask')) {
                     const milestoneItem = e.target.closest('.milestone-item');
                     const subtaskItem = e.target.closest('.subtask-item');
                     
-                    // Prevent deleting the last subtask
                     if (milestoneItem.querySelectorAll('.subtask-item').length > 1) {
                          subtaskItem.remove();
                     } else {
@@ -1932,62 +2988,9 @@
             });
         }
 
-        // --- Project Template Functionality (unchanged) ---
-        const templateMilestones = {
-            software: [
-                { name: 'Requirement Gathering', date: '', subtasks: [
-                    { name: 'User Interviews', deadline: '' },
-                    { name: 'Create Functional Specs', deadline: '' },
-                    { name: 'Sign-off Requirement', deadline: '' }
-                ]},
-                { name: 'Design & Prototyping', date: '', subtasks: [
-                    { name: 'Wireframing', deadline: '' },
-                    { name: 'High-Fidelity Mockups', deadline: '' }
-                ]},
-                { name: 'Development', date: '', subtasks: [
-                    { name: 'Setup Database & API', deadline: '' },
-                    { name: 'Implement Frontend', deadline: '' },
-                    { name: 'Integration Testing', deadline: '' }
-                ]},
-                { name: 'Testing & QA', date: '', subtasks: [
-                    { name: 'Run Unit Tests', deadline: '' },
-                    { name: 'Perform UAT', deadline: '' }
-                ]},
-                { name: 'Deployment', date: '', subtasks: [
-                    { name: 'Staging Deployment', deadline: '' },
-                    { name: 'Production Go-Live', deadline: '' }
-                ]}
-            ],
-            research: [
-                { name: 'Literature Review', date: '', subtasks: [
-                    { name: 'Identify Key Sources', deadline: '' },
-                    { name: 'Synthesize Findings', deadline: '' }
-                ]},
-                { name: 'Methodology & Data Collection', date: '', subtasks: [
-                    { name: 'Design Research Protocol', deadline: '' },
-                    { name: 'Collect Data (Min 80%)', deadline: '' }
-                ]},
-                { name: 'Data Analysis', date: '', subtasks: [
-                    { name: 'Clean & Prepare Data', deadline: '' },
-                    { name: 'Statistical Analysis', deadline: '' }
-                ]},
-                { name: 'Drafting Report', date: '', subtasks: [
-                    { name: 'Draft Introduction & Methods', deadline: '' },
-                    { name: 'Draft Results & Discussion', deadline: '' }
-                ]},
-                { name: 'Final Review & Submission', date: '', subtasks: [
-                    { name: 'Internal Peer Review', deadline: '' },
-                    { name: 'Final Submission', deadline: '' }
-                ]}
-            ]
-        };
-
         function setupTemplateSelection() {
             document.querySelectorAll('.template-card').forEach(card => {
                 const templateName = card.getAttribute('data-template');
-                if (templateName === 'custom') {
-                    return;
-                }
                 card.addEventListener('click', function() {
                     applyTemplate(templateName);
                     showNotification(`Template ${templateName.toUpperCase()} Project Applied!`, 'info');
@@ -2004,22 +3007,37 @@
                 currentSubtaskId = 1;
                 
                 template.forEach(m => {
-                    // Assign new unique IDs for persistence
                     const newMilestoneId = `m${currentMilestoneId++}`;
                     let subtasksWithIds = [];
                     m.subtasks.forEach(s => {
-                        subtasksWithIds.push({...s, subId: `s${currentSubtaskId++}`, progress: 0});
+                        subtasksWithIds.push({
+                            ...s, 
+                            subId: `s${currentSubtaskId++}`, 
+                            progress: 0,
+                            owner: null,
+                            lastWorker: null,
+                            allowedContributors: [],
+                            maxProgressPerMember: 100,
+                            currentContributions: {}
+                        });
                     });
                     
                     addMilestoneInput(newMilestoneId, m.name, m.date, subtasksWithIds, false);
                 });
+            } else if (templateName === 'custom') {
+                // Custom template - clear all milestones
+                const container = document.getElementById('milestoneContainer');
+                container.innerHTML = '';
+                currentMilestoneId = 1;
+                currentSubtaskId = 1;
+                
+                // Add one empty milestone for custom setup
+                addMilestoneInput();
             }
         }
-        // --- Daily Log & Evidence Functions (Updated for Subtasks) (unchanged) ---
 
-        /**
-         * Setup image upload (unchanged)
-         */
+        // --- Daily Log & Evidence Functions ---
+
         function setupImageUpload() {
             const uploadArea = document.getElementById('uploadArea');
             const fileInput = document.getElementById('fileInput');
@@ -2102,26 +3120,96 @@
             });
         }
 
-        /**
-         * Menyimpan log harian ke global state, mengupdate Sub-Tahapan dan Milestone Progress.
-         */
+        function updateSubtaskInfo() {
+            const subtaskSelect = document.getElementById('milestoneSelect');
+            const infoElement = document.getElementById('subtaskInfo');
+            const selectedValue = subtaskSelect.value;
+            
+            if (!selectedValue) {
+                infoElement.textContent = '';
+                return;
+            }
+            
+            const [milestoneId, subId] = selectedValue.split('_');
+            const result = getSubtaskById(subId);
+            
+            if (result && result.subtask) {
+                const { subtask } = result;
+                let info = `Progress: ${subtask.progress}%`;
+                
+                if (subtask.owner) {
+                    const owner = projectData.teamMembers.find(m => m.id === subtask.owner);
+                    info += ` | Owner: ${owner ? owner.name : 'Unknown'}`;
+                }
+                
+                if (subtask.progress >= 100) {
+                    info += ' | TUGAS SUDAH 100% SELESAI';
+                } else if (subtask.owner) {
+                    const currentMember = document.getElementById('logMember').value;
+                    if (subtask.owner !== currentMember) {
+                        info += ` | Maksimal kontribusi: ${100 - subtask.progress}%`;
+                    }
+                }
+                
+                infoElement.textContent = info;
+            } else {
+                infoElement.textContent = '';
+            }
+        }
+
+        function updateNextPlanInfo() {
+            const nextPlanSelect = document.getElementById('nextPlanSubtask');
+            const infoElement = document.getElementById('nextPlanInfo');
+            const selectedValue = nextPlanSelect.value;
+            
+            if (!selectedValue) {
+                infoElement.textContent = '';
+                return;
+            }
+            
+            const result = getSubtaskById(selectedValue);
+            
+            if (result && result.subtask) {
+                const { subtask } = result;
+                let info = `Progress: ${subtask.progress}% | Deadline: ${formatDate(subtask.deadline)}`;
+                
+                if (subtask.owner) {
+                    const owner = projectData.teamMembers.find(m => m.id === subtask.owner);
+                    info += ` | Owner: ${owner ? owner.name : 'Unknown'}`;
+                }
+                
+                // Validasi real-time
+                const currentMember = document.getElementById('logMember').value;
+                const validation = validateNextPlan(currentMember, selectedValue);
+                
+                if (!validation.valid) {
+                    info += ` | ⚠️ ${validation.message}`;
+                }
+                
+                infoElement.textContent = info;
+            } else {
+                infoElement.textContent = '';
+            }
+        }
+
         function saveLog() {
             const date = document.getElementById('logDate').value;
             const hours = parseFloat(document.getElementById('hoursWorked').value);
-            const subtaskIdComposite = document.getElementById('milestoneSelect').value; // mID_sID
+            const memberId = document.getElementById('logMember').value;
+            const subtaskIdComposite = document.getElementById('milestoneSelect').value;
             const activities = document.getElementById('activities').value.trim();
             const progressInput = document.getElementById('progress').value.trim();
             const progress = parseInt(progressInput);
             const priority = document.getElementById('priorityLevel').value;
             const challenges = document.getElementById('challenges').value.trim();
             const nextPlan = document.getElementById('nextPlan').value.trim();
+            const nextPlanSubtask = document.getElementById('nextPlanSubtask').value;
             
             const tagSelect = document.getElementById('activityTags');
             const tags = Array.from(tagSelect.selectedOptions).map(option => option.value);
 
-            // Validation
-            if (!date || !hours || !subtaskIdComposite || !activities) {
-                showNotification('Tanggal, Jam Bekerja, Sub-Tahapan, dan Aktivitas wajib diisi.', 'error');
+            if (!date || !hours || !memberId || !subtaskIdComposite || !activities) {
+                showNotification('Tanggal, Jam Bekerja, Anggota Tim, Sub-Tahapan, dan Aktivitas wajib diisi.', 'error');
                 return;
             }
 
@@ -2129,14 +3217,11 @@
                 showNotification('Jam Bekerja harus angka valid antara 0.5 dan 24.', 'error');
                 return;
             }
-
-
             // Validasi wajib diisi
             if (progressInput === "") {
                 showNotification('Progress Sub-Tahapan wajib diisi.', 'error');
                 return;
             }
-
             // Validasi range & valid number
             if (isNaN(progress) || progress < 0 || progress > 100) {
                 showNotification('Progress harus antara 0 hingga 100.', 'error');
@@ -2145,35 +3230,72 @@
 
             const [milestoneId, subId] = subtaskIdComposite.split('_');
 
-            // 1. Update Subtask and Milestone progress
+            // Validasi claim dan progress
+            const claimResult = claimSubtask(subId, memberId);
+            if (!claimResult.success) {
+                showNotification(claimResult.message, 'error');
+                return;
+            }
+
+            const progressResult = updateSubtaskProgress(subId, memberId, progress);
+            if (!progressResult.success) {
+                showNotification(progressResult.message, 'error');
+                return;
+            }
+
+            // Validasi rencana selanjutnya
+            if (nextPlanSubtask) {
+                const planValidation = validateNextPlan(memberId, nextPlanSubtask);
+                if (!planValidation.valid) {
+                    const confirmed = confirm(
+                        `PERINGATAN: Rencana kerja selanjutnya tidak valid!\n\n${planValidation.message}\n\nTetap simpan log?`
+                    );
+                    if (!confirmed) return;
+                }
+            }
+
+            const { relevanceScore, feedback } = checkContentRelevance(milestoneId, subId, activities);
+            
+            // Calculate adjusted hours based on content quality
+            const qualityThreshold = parseInt(document.getElementById('contentQualityThreshold').value) || 70;
+            const adjustedHours = calculateAdjustedHours(hours, relevanceScore, qualityThreshold);
+            
+            let confirmed = true;
+            if (relevanceScore < qualityThreshold) {
+                 confirmed = confirm(`PERINGATAN KUALITAS KONTEN LOG RENDAH (Skor: ${relevanceScore}%)!\n\nLog yang Anda masukkan dinilai kurang detail. Jam kerja akan disesuaikan dari ${hours} menjadi ${adjustedHours.toFixed(1)} jam.\n\nMasalah Ditemukan:\n${feedback.join('\n')}\n\nTekan 'OK' untuk tetap menyimpan log dengan penyesuaian jam, atau 'Batal' untuk memperbaiki.`);
+            }
+
+            if (!confirmed) {
+                return;
+            }
+
             const milestone = projectData.milestones.find(m => m.id === milestoneId);
             let subtaskName = 'Unknown Subtask';
 
             if (milestone) {
                 const subtask = milestone.subtasks.find(s => s.subId === subId);
                 if (subtask) {
-                    subtask.progress = Math.min(100, Math.max(subtask.progress, progress));
                     subtaskName = subtask.name;
                 }
-                
-                // Recalculate main milestone progress
-                milestone.progress = calculateMilestoneProgress(milestone.subtasks);
             }
 
-            // 2. Create log entry
             const newLog = {
                 id: currentLogId++,
                 date,
-                hours,
+                hours: hours,
+                adjustedHours: adjustedHours,
+                memberId,
                 milestoneId,
-                subId, // Store the subtask ID
+                subId,
                 activities,
                 progress,
                 priority,
                 challenges,
                 nextPlan,
+                nextPlanSubtask,
                 tags,
-                evidence: [...uploadedFiles]
+                evidence: [...uploadedFiles],
+                relevanceScore: relevanceScore
             };
 
             dailyLogs.push(newLog);
@@ -2182,58 +3304,59 @@
             renderLogList();
             renderTimeline();
             calculateOverallProgress();
+            
+            // Calculate penalties
+            penaltySystem.calculateDailyPenalties();
+            
             resetLogForm(false);
-            showNotification(`Log Harian untuk Sub-Tahapan "${subtaskName}" berhasil disimpan!`, 'success');
+            showNotification(`Log Harian untuk Sub-Tahapan "${subtaskName}" berhasil disimpan! ${relevanceScore < qualityThreshold ? `Jam kerja disesuaikan: ${hours} → ${adjustedHours.toFixed(1)} jam` : ''}`, 'success');
         }
 
-        /**
-         * Reset form log harian.
-         */
         function resetLogForm(notify = true) {
             document.getElementById('logDate').value = new Date().toISOString().split('T')[0];
             document.getElementById('hoursWorked').value = '';
+            document.getElementById('logMember').value = '';
             document.getElementById('milestoneSelect').value = '';
             document.getElementById('priorityLevel').value = 'low';
             document.getElementById('activities').value = '';
             document.getElementById('progress').value = '';
             document.getElementById('challenges').value = '';
             document.getElementById('nextPlan').value = '';
+            document.getElementById('nextPlanSubtask').value = '';
 
             const tagSelect = document.getElementById('activityTags');
             Array.from(tagSelect.options).forEach(option => option.selected = false);
 
             uploadedFiles = [];
             document.getElementById('imagePreviewContainer').innerHTML = '';
+            document.getElementById('subtaskInfo').textContent = '';
+            document.getElementById('nextPlanInfo').textContent = '';
+            document.getElementById('adjustedHoursInfo').style.display = 'none';
+            document.getElementById('contentQualityWarning').style.display = 'none';
 
             if (notify) {
                 showNotification('Form Log Harian telah direset.', 'info');
             }
         }
 
-        /**
-         * Memfilter log berdasarkan kriteria filter.
-         */
         function filterLogs() {
             let searchTerm = document.getElementById('searchLogs').value.toLowerCase();
-            const milestoneFilter = document.getElementById('filterMilestone').value; // Filters by main milestone ID
+            const milestoneFilter = document.getElementById('filterMilestone').value;
+            const memberFilter = document.getElementById('filterMember').value;
             const dateFilter = document.getElementById('filterDate').value;
             const priorityFilter = document.getElementById('filterPriority').value;
             const today = new Date(new Date().toISOString().split('T')[0]); 
 
             return dailyLogs.filter(log => {
-                // Text Search Filter
                 const textMatch = log.activities.toLowerCase().includes(searchTerm) ||
                                 log.challenges.toLowerCase().includes(searchTerm) ||
                                 log.nextPlan.toLowerCase().includes(searchTerm) ||
                                 log.tags.some(tag => tag.toLowerCase().includes(searchTerm));
 
-                // Milestone Filter (by main milestone ID)
                 const milestoneMatch = !milestoneFilter || log.milestoneId === milestoneFilter;
-
-                // Priority Filter
+                const memberMatch = !memberFilter || log.memberId === memberFilter;
                 const priorityMatch = !priorityFilter || log.priority === priorityFilter;
 
-                // Date Filter (unchanged)
                 let dateMatch = true;
                 if (dateFilter) {
                     const logDate = new Date(log.date.replace(/-/g, '/'));
@@ -2249,13 +3372,10 @@
                     }
                 }
 
-                return textMatch && milestoneMatch && dateMatch && priorityMatch;
+                return textMatch && milestoneMatch && memberMatch && dateMatch && priorityMatch;
             }).sort((a, b) => new Date(b.date.replace(/-/g, '/')) - new Date(a.date.replace(/-/g, '/'))); 
         }
 
-        /**
-         * Menampilkan daftar log harian yang sudah difilter.
-         */
         function renderLogList() {
             const listContainer = document.getElementById('logList');
             const filteredLogs = filterLogs();
@@ -2272,13 +3392,29 @@
             }
 
             filteredLogs.forEach(log => {
+                const member = projectData.teamMembers.find(m => m.id === log.memberId);
                 const milestone = projectData.milestones.find(m => m.id === log.milestoneId);
                 const subtask = milestone ? milestone.subtasks.find(s => s.subId === log.subId) : null;
 
+                const memberName = member ? member.name : 'Unknown Member';
                 const milestoneName = milestone ? milestone.name : 'Unknown Milestone';
                 const subtaskName = subtask ? subtask.name : 'Unknown Subtask';
 
                 const tagsHtml = log.tags.map(tag => `<span class="log-tag">${tag}</span>`).join('');
+                
+                let qualityBadgeClass = 'quality-poor';
+                if (log.relevanceScore >= 85) {
+                    qualityBadgeClass = 'quality-good';
+                } else if (log.relevanceScore >= 70) {
+                    qualityBadgeClass = 'quality-medium';
+                }
+                
+                const qualityThreshold = parseInt(document.getElementById('contentQualityThreshold').value) || 70;
+                const hoursDisplay = log.relevanceScore < qualityThreshold ? 
+                    `<span style="text-decoration: line-through; color: #999;">${log.hours}</span> ${log.adjustedHours.toFixed(1)}` : 
+                    log.hours;
+                
+                const qualityBadge = `<span class="quality-badge ${qualityBadgeClass}">${log.relevanceScore}%</span>`;
                 
                 const evidenceHtml = log.evidence.map((base64, index) =>
                     `<img src="${base64}" alt="Evidence ${log.id}-${index}" onclick="openModal('${base64}')">`
@@ -2288,11 +3424,11 @@
                 logItem.classList.add('log-item');
                 logItem.innerHTML = `
                     <div class="log-header">
-                        <span class="log-date"><i class="fas fa-calendar-day"></i> ${formatDate(log.date)} - ${milestoneName} (<small>${subtaskName}</small>)</span>
-                        <span class="log-hours"><i class="fas fa-clock"></i> ${log.hours} Jam</span>
+                        <span class="log-date"><i class="fas fa-calendar-day"></i> ${formatDate(log.date)} - ${memberName}</span>
+                        <span class="log-hours"><i class="fas fa-clock"></i> ${hoursDisplay} Jam ${qualityBadge}</span>
                     </div>
                     <div class="log-content">
-                        <strong>Aktivitas Sub-Tahapan (${log.progress}%):</strong> ${log.activities}
+                        <strong>${milestoneName} / ${subtaskName} (${log.progress}%):</strong> ${log.activities}
                     </div>
                     <div class="log-content">
                         <strong>Kendala:</strong> ${log.challenges || '-'}
@@ -2305,52 +3441,110 @@
                         <span class="log-tag status-${log.priority}">${log.priority.toUpperCase()}</span>
                     </div>
                     ${log.evidence.length > 0 ? `<div class="log-evidence">${evidenceHtml}</div>` : ''}
+                    ${log.relevanceScore < qualityThreshold ? 
+                        `<div style="background: #fff3cd; padding: 8px; border-radius: 4px; margin-top: 8px; font-size: 0.9rem; color: #856404;">
+                            <i class="fas fa-exclamation-triangle"></i> Jam kerja disesuaikan karena kualitas konten rendah
+                        </div>` : ''}
                 `;
                 listContainer.appendChild(logItem);
             });
         }
 
-        /**
-         * Mengatur semua event listener untuk tab Log Harian.
-         */
         function setupLogFormListeners() {
             resetLogForm(false);
             document.getElementById('saveLog').addEventListener('click', saveLog);
             document.getElementById('resetLog').addEventListener('click', () => resetLogForm(true));
 
-            // Filter listeners
             document.getElementById('searchLogs').addEventListener('input', renderLogList);
             document.getElementById('filterMilestone').addEventListener('change', renderLogList);
+            document.getElementById('filterMember').addEventListener('change', renderLogList);
             document.getElementById('filterDate').addEventListener('change', renderLogList);
             document.getElementById('filterPriority').addEventListener('change', renderLogList);
             document.getElementById('clearFilters').addEventListener('click', function() {
                 document.getElementById('searchLogs').value = '';
                 document.getElementById('filterMilestone').value = '';
+                document.getElementById('filterMember').value = '';
                 document.getElementById('filterDate').value = '';
                 document.getElementById('filterPriority').value = '';
                 renderLogList();
             });
+
+            // Enhanced event listeners for anti-claim system
+            document.getElementById('milestoneSelect').addEventListener('change', updateSubtaskInfo);
+            document.getElementById('logMember').addEventListener('change', function() {
+                updateSubtaskInfo();
+                updateNextPlanInfo();
+            });
+            document.getElementById('nextPlanSubtask').addEventListener('change', updateNextPlanInfo);
+            document.getElementById('progress').addEventListener('input', function() {
+                const subtaskSelect = document.getElementById('milestoneSelect');
+                const selectedValue = subtaskSelect.value;
+                if (selectedValue) {
+                    const [_, subId] = selectedValue.split('_');
+                    const result = getSubtaskById(subId);
+                    if (result && result.subtask) {
+                        const progressInput = document.getElementById('progress');
+                        const currentProgress = parseInt(progressInput.value) || 0;
+                        const maxAllowed = result.subtask.maxProgressPerMember || 100;
+                        
+                        if (currentProgress > maxAllowed) {
+                            progressInput.value = maxAllowed;
+                            showNotification(`Progress maksimal yang diizinkan: ${maxAllowed}%`, 'warning');
+                        }
+                    }
+                }
+            });
+
+            // Content quality real-time calculation
+            document.getElementById('hoursWorked').addEventListener('input', updateAdjustedHoursDisplay);
+            document.getElementById('activities').addEventListener('input', updateAdjustedHoursDisplay);
         }
         
-        /**
-         * Mengisi dropdown Sub-Tahapan project di form log dan dropdown filter Milestone utama.
-         */
         function renderMilestoneSelects() {
             const milestoneSelect = document.getElementById('milestoneSelect');
             const filterMilestone = document.getElementById('filterMilestone');
+            const logMember = document.getElementById('logMember');
+            const filterMember = document.getElementById('filterMember');
+            const filterTeamMember = document.getElementById('filterTeamMember');
+            const nextPlanSubtask = document.getElementById('nextPlanSubtask');
 
-            // Preserve filter option
             const currentFilterValue = filterMilestone ? filterMilestone.value : '';
 
-            // Clear current options
             milestoneSelect.innerHTML = '<option value="">Pilih Sub-Tahapan project</option>';
+            nextPlanSubtask.innerHTML = '<option value="">Pilih Sub-Tahapan untuk dikerjakan selanjutnya</option>';
             if (filterMilestone) {
                 filterMilestone.innerHTML = '<option value="">Semua Tahapan Utama</option>';
             }
+            logMember.innerHTML = '<option value="">Pilih Anggota Tim</option>';
+            if (filterMember) {
+                filterMember.innerHTML = '<option value="">Semua Anggota</option>';
+            }
+            if (filterTeamMember) {
+                filterTeamMember.innerHTML = '<option value="">Semua Anggota</option>';
+            }
 
-            // Populate Subtask options (Log Form)
+            projectData.teamMembers.forEach(member => {
+                const option = document.createElement('option');
+                option.value = member.id;
+                option.textContent = `${member.name} (${member.role === 'leader' ? 'Leader' : 'Member'})`;
+                logMember.appendChild(option);
+                
+                if (filterMember) {
+                    const filterOption = document.createElement('option');
+                    filterOption.value = member.id;
+                    filterOption.textContent = member.name;
+                    filterMember.appendChild(filterOption);
+                }
+                
+                if (filterTeamMember) {
+                    const teamOption = document.createElement('option');
+                    teamOption.value = member.id;
+                    teamOption.textContent = member.name;
+                    filterTeamMember.appendChild(teamOption);
+                }
+            });
+
             projectData.milestones.forEach(m => {
-                // Add option for main milestone filter
                 if (filterMilestone) {
                     const filterOption = document.createElement('option');
                     filterOption.value = m.id;
@@ -2358,36 +3552,33 @@
                     filterMilestone.appendChild(filterOption);
                 }
 
-                // Add subtasks to log form select
                 m.subtasks.forEach(s => {
                     const option = document.createElement('option');
-                    option.value = `${m.id}_${s.subId}`; // Composite ID: mID_sID
+                    option.value = `${m.id}_${s.subId}`;
                     option.textContent = `${m.name}: ${s.name}`;
                     milestoneSelect.appendChild(option);
+                    
+                    const nextPlanOption = document.createElement('option');
+                    nextPlanOption.value = s.subId;
+                    nextPlanOption.textContent = `${m.name}: ${s.name}`;
+                    nextPlanSubtask.appendChild(nextPlanOption);
                 });
             });
 
-            // Restore filter option
             if (filterMilestone) {
                 filterMilestone.value = currentFilterValue;
             }
         }
 
-
         // --- Overall Progress & Compliance ---
 
-        /**
-         * Menghitung dan menampilkan progress project keseluruhan.
-         */
         function calculateOverallProgress() {
             const totalProgress = projectData.milestones.reduce((sum, m) => sum + m.progress, 0);
             const overallProgress = projectData.milestones.length > 0 ? Math.round(totalProgress / projectData.milestones.length) : 0;
             
-            // Progress Bar
             document.getElementById('progressFill').style.width = `${overallProgress}%`;
             document.getElementById('progressText').textContent = `${overallProgress}%`;
 
-            // Compliance Status
             const complianceBadge = document.getElementById('overallComplianceBadge');
             const complianceText = document.getElementById('overallComplianceText');
             
@@ -2417,17 +3608,248 @@
             complianceText.textContent = message;
         }
 
+        // --- Team Monitoring Functions ---
+        
+        function calculateTeamStats() {
+            const memberFilter = document.getElementById('filterTeamMember').value;
+            const dateFilter = document.getElementById('filterTeamDate').value;
+            
+            const today = new Date(new Date().toISOString().split('T')[0]);
+            let startDate = new Date('2000-01-01');
+            
+            if (dateFilter === 'week') {
+                startDate = new Date(today);
+                startDate.setDate(today.getDate() - today.getDay());
+            } else if (dateFilter === 'month') {
+                startDate = new Date(today.getFullYear(), today.getMonth(), 1);
+            } else if (dateFilter === 'quarter') {
+                startDate = new Date(today);
+                startDate.setMonth(today.getMonth() - 3);
+            }
+            
+            const stats = {};
+            
+            projectData.teamMembers.forEach(member => {
+                if (memberFilter && member.id !== memberFilter) return;
+                
+                stats[member.id] = {
+                    name: member.name,
+                    role: member.role,
+                    totalLogs: 0,
+                    totalHours: 0,
+                    totalAdjustedHours: 0,
+                    avgQuality: 0,
+                    totalProgress: 0,
+                    lastActivity: null,
+                    performanceScore: penaltySystem.memberScores[member.id] || 100
+                };
+            });
+            
+            dailyLogs.forEach(log => {
+                if (!stats[log.memberId]) return;
+                
+                const logDate = new Date(log.date.replace(/-/g, '/'));
+                if (dateFilter && logDate < startDate) return;
+                
+                stats[log.memberId].totalLogs++;
+                stats[log.memberId].totalHours += log.hours;
+                stats[log.memberId].totalAdjustedHours += log.adjustedHours || log.hours;
+                stats[log.memberId].totalProgress += log.progress;
+                stats[log.memberId].avgQuality += log.relevanceScore || 0;
+                
+                if (!stats[log.memberId].lastActivity || logDate > new Date(stats[log.memberId].lastActivity.replace(/-/g, '/'))) {
+                    stats[log.memberId].lastActivity = log.date;
+                }
+            });
+            
+            Object.keys(stats).forEach(memberId => {
+                if (stats[memberId].totalLogs > 0) {
+                    stats[memberId].avgQuality = Math.round(stats[memberId].avgQuality / stats[memberId].totalLogs);
+                    stats[memberId].avgProgress = Math.round(stats[memberId].totalProgress / stats[memberId].totalLogs);
+                    stats[memberId].hoursReduction = stats[memberId].totalHours - stats[memberId].totalAdjustedHours;
+                }
+            });
+            
+            return stats;
+        }
+
+        function renderTeamMonitoring() {
+            const container = document.getElementById('teamMonitoringStats');
+            const stats = calculateTeamStats();
+            
+            if (Object.keys(stats).length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-users"></i>
+                        <p>Belum ada data untuk ditampilkan. Isi timeline project dan log harian terlebih dahulu.</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            container.innerHTML = '';
+            
+            Object.keys(stats).forEach(memberId => {
+                const member = stats[memberId];
+                let qualityClass = 'quality-poor';
+                if (member.avgQuality >= 85) {
+                    qualityClass = 'quality-good';
+                } else if (member.avgQuality >= 70) {
+                    qualityClass = 'quality-medium';
+                }
+                
+                const memberCard = document.createElement('div');
+                memberCard.classList.add('team-member-card');
+                memberCard.innerHTML = `
+                    <div class="member-header">
+                        <div class="member-name">${member.name}</div>
+                        <div class="member-role">${member.role === 'leader' ? 'Project Leader' : 'Team Member'}</div>
+                    </div>
+                    <div class="member-stats">
+                        <div class="stat-item">
+                            <div class="stat-value">${member.totalLogs}</div>
+                            <div class="stat-label">Total Log</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">${member.totalAdjustedHours.toFixed(1)}</div>
+                            <div class="stat-label">Jam Kerja</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">${member.avgQuality || 0}%</div>
+                            <div class="stat-label">Kualitas</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">${member.performanceScore}</div>
+                            <div class="stat-label">Performance</div>
+                        </div>
+                    </div>
+                    <div class="member-footer">
+                        <span class="quality-badge ${qualityClass}">Kualitas: ${member.avgQuality || 0}%</span>
+                        ${member.hoursReduction > 0 ? 
+                            `<span style="color: #e74c3c; margin-left: 10px;">
+                                <i class="fas fa-exclamation-triangle"></i> Pengurangan: ${member.hoursReduction.toFixed(1)} jam
+                            </span>` : ''}
+                        <small style="float: right;">Aktivitas Terakhir: ${member.lastActivity ? formatDate(member.lastActivity) : 'Belum ada'}</small>
+                    </div>
+                `;
+                container.appendChild(memberCard);
+            });
+            
+            renderTeamDistributionChart();
+            renderContentQualityChart();
+        }
+
+        function renderTeamDistributionChart() {
+            const ctx = document.getElementById('teamDistributionChart').getContext('2d');
+            if (teamDistributionChartInstance) teamDistributionChartInstance.destroy();
+
+            const stats = calculateTeamStats();
+            const labels = Object.values(stats).map(s => s.name);
+            const logData = Object.values(stats).map(s => s.totalLogs);
+            const hourData = Object.values(stats).map(s => s.totalAdjustedHours);
+
+            teamDistributionChartInstance = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: 'Jumlah Log',
+                            data: logData,
+                            backgroundColor: '#3498db',
+                            yAxisID: 'y',
+                        },
+                        {
+                            label: 'Jam Kerja',
+                            data: hourData,
+                            backgroundColor: '#2ecc71',
+                            yAxisID: 'y1',
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            type: 'linear',
+                            display: true,
+                            position: 'left',
+                            title: {
+                                display: true,
+                                text: 'Jumlah Log'
+                            }
+                        },
+                        y1: {
+                            type: 'linear',
+                            display: true,
+                            position: 'right',
+                            title: {
+                                display: true,
+                                text: 'Jam Kerja'
+                            },
+                            grid: {
+                                drawOnChartArea: false,
+                            },
+                        }
+                    }
+                }
+            });
+        }
+
+        function renderContentQualityChart() {
+            const ctx = document.getElementById('contentQualityChart').getContext('2d');
+            if (contentQualityChartInstance) contentQualityChartInstance.destroy();
+
+            const stats = calculateTeamStats();
+            const labels = Object.values(stats).map(s => s.name);
+            const qualityData = Object.values(stats).map(s => s.avgQuality || 0);
+
+            const backgroundColors = qualityData.map(score => {
+                if (score >= 85) return '#2ecc71';
+                if (score >= 70) return '#f39c12';
+                return '#e74c3c';
+            });
+
+            contentQualityChartInstance = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Rata-rata Kualitas Konten (%)',
+                        data: qualityData,
+                        backgroundColor: backgroundColors,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100,
+                            title: {
+                                display: true,
+                                text: 'Skor Kualitas (%)'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function setupTeamMonitoringListeners() {
+            document.getElementById('refreshTeamStats').addEventListener('click', renderTeamMonitoring);
+            document.getElementById('filterTeamMember').addEventListener('change', renderTeamMonitoring);
+            document.getElementById('filterTeamDate').addEventListener('change', renderTeamMonitoring);
+        }
 
         // --- Analytics & Charts ---
         
-        // Helper function to setup Charts
         function setupAnalytics() {
-            // The charts will be rendered when the tab is clicked, this function ensures they are initialized correctly.
+            // Charts will be rendered when the tab is clicked
         }
 
-        /**
-         * Menggambar chart progress per tahapan.
-         */
         function renderProgressChart() {
             const ctx = document.getElementById('progressChart').getContext('2d');
             if (progressChartInstance) progressChartInstance.destroy();
@@ -2467,18 +3889,14 @@
             });
         }
 
-        /**
-         * Menggambar chart distribusi jam kerja per tahapan utama.
-         */
         function renderWorkDistributionChart() {
             const ctx = document.getElementById('workDistributionChart').getContext('2d');
             if (workDistributionChartInstance) workDistributionChartInstance.destroy();
 
-            // Aggregate hours by main milestone ID
             const milestoneHours = dailyLogs.reduce((acc, log) => {
                 const milestone = projectData.milestones.find(m => m.id === log.milestoneId);
                 const name = milestone ? milestone.name : 'Unspecified';
-                acc[name] = (acc[name] || 0) + log.hours;
+                acc[name] = (acc[name] || 0) + (log.adjustedHours || log.hours);
                 return acc;
             }, {});
 
@@ -2508,9 +3926,6 @@
             });
         }
 
-        /**
-         * Menggambar chart frekuensi aktivitas. (unchanged)
-         */
         function renderActivityChart() {
             const ctx = document.getElementById('activityChart').getContext('2d');
             if (activityChartInstance) activityChartInstance.destroy();
@@ -2546,9 +3961,6 @@
             });
         }
 
-        /**
-         * Menggambar chart prioritas log harian. (unchanged)
-         */
         function renderPriorityChart() {
             const ctx = document.getElementById('priorityChart').getContext('2d');
             if (priorityChartInstance) priorityChartInstance.destroy();
@@ -2580,28 +3992,22 @@
             });
         }
 
-        /**
-         * Menghitung metrik utama dan merender semua chart.
-         */
         function renderAnalytics() {
             if (dailyLogs.length === 0 || projectData.milestones.length === 0 || !projectData.startDate) {
-                // Cleanup metric values
                 document.getElementById('productivityScore').textContent = 'N/A';
                 document.getElementById('consistencyRate').textContent = 'N/A';
                 document.getElementById('totalHoursWorked').textContent = 'N/A';
                 document.getElementById('timelineAdherence').textContent = 'N/A';
                 
-                // Cleanup charts if they exist (This is handled by destroyCharts on tab exit now, but good practice here too)
                 destroyCharts(); 
                 return;
             }
 
-            // Calculate metrics (unchanged)
             const totalLogs = dailyLogs.length;
             const uniqueDays = [...new Set(dailyLogs.map(log => log.date))].length;
             const daysPassed = daysBetween(projectData.startDate, new Date().toISOString().split('T')[0]) || 1;
             const logsPerDay = totalLogs / daysPassed;
-            const totalHours = dailyLogs.reduce((sum, log) => sum + log.hours, 0);
+            const totalHours = dailyLogs.reduce((sum, log) => sum + (log.adjustedHours || log.hours), 0);
             const avgHours = totalLogs > 0 ? totalHours / totalLogs : 0;
             const totalProjectProgress = projectData.milestones.reduce((sum, m) => sum + m.progress, 0) / projectData.milestones.length;
 
@@ -2613,9 +4019,7 @@
             document.getElementById('totalHoursWorked').textContent = totalHours.toFixed(1);
             document.getElementById('timelineAdherence').textContent = `${totalProjectProgress.toFixed(0)}%`;
 
-            // Render Charts with a small delay for DOM stability after tab switch
             setTimeout(() => {
-                // Double check if data is still present and the tab is still active after the delay
                 if (dailyLogs.length === 0 || projectData.milestones.length === 0 || !document.getElementById('analytics-tab').classList.contains('active')) return;
 
                 renderProgressChart();
@@ -2625,138 +4029,7 @@
             }, 50); 
         }
 
-        // --- Report & Print Functions (Updated for Subtasks) (unchanged) ---
-        
-        function renderReportData() {
-            if (dailyLogs.length === 0 || projectData.milestones.length === 0) {
-                // Reset report elements if no data
-                document.getElementById('progressCompliance').textContent = '0';
-                document.getElementById('totalHoursReport').textContent = '0';
-                document.getElementById('avgHoursReport').textContent = '0';
-                document.getElementById('totalEvidenceReport').textContent = '0';
-                document.getElementById('milestoneComplianceDetail').innerHTML = '<p class="empty-state">Belum ada tahapan project untuk dianalisis.</p>';
-                document.getElementById('fullLogReport').innerHTML = '<p class="empty-state">Belum ada data log harian untuk ditampilkan.</p>';
-                document.getElementById('reportComplianceBadge').className = 'compliance-badge compliance-danger';
-                document.getElementById('reportComplianceBadge').textContent = 'BELUM ADA DATA';
-                document.getElementById('reportComplianceText').textContent = 'Harap isi data timeline dan log harian untuk membuat laporan.';
-                return;
-            }
-
-            const totalHours = dailyLogs.reduce((sum, log) => sum + log.hours, 0);
-            const totalEvidence = dailyLogs.reduce((sum, log) => sum + log.evidence.length, 0);
-            const uniqueDates = [...new Set(dailyLogs.map(log => log.date))].length;
-            const avgHours = uniqueDates > 0 ? (totalHours / uniqueDates).toFixed(1) : 0;
-            const overallProjectProgress = projectData.milestones.length > 0 ? (projectData.milestones.reduce((sum, m) => sum + m.progress, 0) / projectData.milestones.length).toFixed(0) : 0;
-            
-            // 1. Ringkasan Metrik
-            document.getElementById('progressCompliance').textContent = `${overallProjectProgress}`;
-            document.getElementById('totalHoursReport').textContent = `${totalHours.toFixed(1)}`;
-            document.getElementById('avgHoursReport').textContent = `${avgHours}`;
-            document.getElementById('totalEvidenceReport').textContent = `${totalEvidence}`;
-
-            // 2. Ringkasan Compliance (Sync with Log Tab)
-            const overallComplianceBadge = document.getElementById('overallComplianceBadge');
-            document.getElementById('reportComplianceBadge').className = overallComplianceBadge.className;
-            document.getElementById('reportComplianceBadge').textContent = overallComplianceBadge.textContent;
-            document.getElementById('reportComplianceText').textContent = document.getElementById('overallComplianceText').textContent;
-
-            // 3. Detail Compliance Per Tahapan
-            const detailContainer = document.getElementById('milestoneComplianceDetail');
-            detailContainer.innerHTML = '';
-            
-            projectData.milestones.forEach(m => {
-                let statusText = m.progress >= 100 ? 'Selesai' : m.progress > 0 ? 'Berjalan' : 'Pending';
-                let statusClass = m.progress >= 100 ? 'compliance-good' : m.progress > 0 ? 'compliance-warning' : 'compliance-danger';
-                
-                // Simple deadline check (if date is past and progress is < 100)
-                if (m.date && new Date(m.date.replace(/-/g, '/')) < new Date() && m.progress < 100) {
-                     statusText = `TERLAMBAT (${statusText})`;
-                     statusClass = 'compliance-danger';
-                }
-
-                // Main Milestone Header
-                const milestoneHeader = document.createElement('div');
-                milestoneHeader.classList.add('compliance-indicator');
-                milestoneHeader.style.marginBottom = '5px';
-                milestoneHeader.innerHTML = `
-                    <span class="compliance-badge ${statusClass}">${statusText}</span>
-                    <span style="font-weight: bold; color: var(--secondary);">${m.name} (${m.progress}%)</span>
-                    <small style="margin-left: 10px;">Deadline: ${formatDate(m.date) || 'N/A'}</small>
-                `;
-                detailContainer.appendChild(milestoneHeader);
-                
-                // Subtask Details
-                m.subtasks.forEach(s => {
-                    let subStatusText = s.progress >= 100 ? 'Done' : s.progress > 0 ? 'In Progress' : 'Pending';
-                    let subStatusClass = s.progress >= 100 ? 'compliance-good' : s.progress > 0 ? 'compliance-warning' : 'compliance-danger';
-                    
-                    const subtaskDetail = document.createElement('div');
-                    subtaskDetail.style.padding = '5px 10px 5px 30px';
-                    subtaskDetail.style.borderLeft = '2px dashed #ddd';
-                    subtaskDetail.innerHTML = `
-                        <i class="fas fa-check-circle" style="color: ${subStatusClass === 'compliance-good' ? '#2ecc71' : subStatusClass === 'compliance-warning' ? '#f39c12' : '#e74c3c'}; margin-right: 5px;"></i>
-                        <span>${s.name} (${s.progress}%)</span>
-                        <small style="margin-left: 10px; color: #7f8c8d;">Deadline: ${formatDate(s.deadline) || 'N/A'}</small>
-                    `;
-                    detailContainer.appendChild(subtaskDetail);
-                });
-            });
-            
-            // 4. Log Harian Lengkap (Use filtered logs for consistency, but without filters applied)
-            const fullLogReportContainer = document.getElementById('fullLogReport');
-            const allLogs = dailyLogs.sort((a, b) => new Date(b.date.replace(/-/g, '/')) - new Date(a.date.replace(/-/g, '/'))); 
-            fullLogReportContainer.innerHTML = '';
-            
-            if (allLogs.length === 0) {
-                fullLogReportContainer.innerHTML = '<p class="empty-state">Belum ada data log harian untuk ditampilkan.</p>';
-                return;
-            }
-
-            allLogs.forEach(log => {
-                const milestone = projectData.milestones.find(m => m.id === log.milestoneId);
-                const subtask = milestone ? milestone.subtasks.find(s => s.subId === log.subId) : null;
-                const milestoneName = milestone ? milestone.name : 'Unknown Milestone';
-                const subtaskName = subtask ? subtask.name : 'Unknown Subtask';
-                
-                const tagsHtml = log.tags.map(tag => `<span class="log-tag">${tag}</span>`).join('');
-                
-                const evidenceHtml = log.evidence.map((base64, index) =>
-                    `<img src="${base64}" alt="Evidence ${log.id}-${index}" onclick="openModal('${base64}')">`
-                ).join('');
-
-                const logItem = document.createElement('div');
-                logItem.classList.add('log-item');
-                logItem.innerHTML = `
-                    <div class="log-header">
-                        <span class="log-date"><i class="fas fa-calendar-day"></i> ${formatDate(log.date)} - ${milestoneName} (<small>${subtaskName}</small>)</span>
-                        <span class="log-hours"><i class="fas fa-clock"></i> ${log.hours} Jam</span>
-                    </div>
-                    <div class="log-content">
-                        <strong>Aktivitas Sub-Tahapan (${log.progress}%):</strong> ${log.activities}
-                    </div>
-                    <div class="log-content">
-                        <strong>Kendala:</strong> ${log.challenges || '-'}
-                    </div>
-                    <div class="log-content">
-                        <strong>Rencana Selanjutnya:</strong> ${log.nextPlan || '-'}
-                    </div>
-                    <div class="log-tags">
-                        ${tagsHtml}
-                        <span class="log-tag status-${log.priority}">${log.priority.toUpperCase()}</span>
-                    </div>
-                    ${log.evidence.length > 0 ? `<div class="log-evidence">${evidenceHtml}</div>` : ''}
-                `;
-                fullLogReportContainer.appendChild(logItem);
-            });
-        }
-
-        function setupReportAndPrint() {
-            document.getElementById('printReport').addEventListener('click', () => {
-                window.print();
-            });
-        }
-        
-        // --- Modal Functions (for evidence image preview) (unchanged) ---
+        // --- Modal Functions ---
         window.openModal = function(base64Image) {
             document.getElementById('modalImage').src = base64Image;
             document.getElementById('imageModal').classList.add('open');
@@ -2774,21 +4047,23 @@
             }
         });
 
-
-        // --- Settings, Backup & Restore (unchanged) ---
+        // --- Settings, Backup & Restore ---
         
         function setupSettings() {
             const settings = JSON.parse(localStorage.getItem('settings')) || {
                 reminderTime: '18:00',
-                autoSave: '5'
+                autoSave: '5',
+                contentQualityThreshold: '70'
             };
             document.getElementById('reminderTime').value = settings.reminderTime;
             document.getElementById('autoSave').value = settings.autoSave;
+            document.getElementById('contentQualityThreshold').value = settings.contentQualityThreshold;
 
             document.getElementById('saveSettings').addEventListener('click', function() {
                 const newSettings = {
                     reminderTime: document.getElementById('reminderTime').value,
-                    autoSave: document.getElementById('autoSave').value
+                    autoSave: document.getElementById('autoSave').value,
+                    contentQualityThreshold: document.getElementById('contentQualityThreshold').value
                 };
                 localStorage.setItem('settings', JSON.stringify(newSettings));
                 showNotification('Pengaturan berhasil disimpan!', 'success');
@@ -2798,6 +4073,7 @@
                 localStorage.removeItem('settings');
                 document.getElementById('reminderTime').value = '18:00';
                 document.getElementById('autoSave').value = '5';
+                document.getElementById('contentQualityThreshold').value = '70';
                 showNotification('Pengaturan direset ke default.', 'info');
             });
 
@@ -2814,6 +4090,8 @@
                 currentSubtaskId: currentSubtaskId,
                 currentMemberId: currentMemberId,
                 currentLogId: currentLogId,
+                memberScores: penaltySystem.memberScores,
+                penaltyHistory: penaltySystem.penaltyHistory
             };
 
             const dataStr = JSON.stringify(dataToExport, null, 2);
@@ -2848,8 +4126,17 @@
                         currentSubtaskId = importedData.currentSubtaskId || 2;
                         currentMemberId = importedData.currentMemberId || 2;
                         currentLogId = importedData.currentLogId || 1;
+                        
+                        // Import penalty data if available
+                        if (importedData.memberScores) {
+                            penaltySystem.memberScores = importedData.memberScores;
+                        }
+                        if (importedData.penaltyHistory) {
+                            penaltySystem.penaltyHistory = importedData.penaltyHistory;
+                        }
 
                         saveAllData();
+                        penaltySystem.saveScores();
                         location.reload(); 
                         showNotification('Data berhasil diimport dan sistem dimuat ulang!', 'success');
                     } else {
@@ -2871,18 +4158,288 @@
             }
         }
 
+        // --- Print Report Function ---
+        function generatePrintView() {
+            // Buat window baru untuk print
+            const printWindow = window.open('', '_blank');
+            if (!printWindow) {
+                showNotification('Popup diblokir! Izinkan popup untuk situs ini untuk mencetak laporan.', 'error');
+                return;
+            }
+
+            const teamStats = getTeamStatsForPrint();
+            const totalProgress = projectData.milestones.reduce((sum, m) => sum + m.progress, 0);
+            const overallProgress = projectData.milestones.length > 0 ? Math.round(totalProgress / projectData.milestones.length) : 0;
+            
+            const printContent = `
+                <!DOCTYPE html>
+                <html lang="id">
+                <head>
+                    <meta charset="UTF-8">
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <title>Laporan Project - ${projectData.projectName || 'Nama Project'}</title>
+                    <style>
+                        body {
+                            font-family: Arial, sans-serif;
+                            margin: 20px;
+                            color: #333;
+                            line-height: 1.4;
+                        }
+                        .print-header {
+                            text-align: center;
+                            margin-bottom: 30px;
+                            border-bottom: 2px solid #3498db;
+                            padding-bottom: 20px;
+                        }
+                        .print-header h1 {
+                            color: #2c3e50;
+                            margin-bottom: 10px;
+                        }
+                        .section {
+                            margin-bottom: 30px;
+                            page-break-inside: avoid;
+                        }
+                        .section h2 {
+                            color: #3498db;
+                            border-bottom: 1px solid #ddd;
+                            padding-bottom: 5px;
+                            margin-bottom: 15px;
+                        }
+                        .team-stats-table {
+                            width: 100%;
+                            border-collapse: collapse;
+                            margin: 15px 0;
+                        }
+                        .team-stats-table th, .team-stats-table td {
+                            border: 1px solid #ddd;
+                            padding: 8px 12px;
+                            text-align: left;
+                        }
+                        .team-stats-table th {
+                            background-color: #3498db;
+                            color: white;
+                        }
+                        .team-stats-table tr:nth-child(even) {
+                            background-color: #f8f9fa;
+                        }
+                        .metric-grid {
+                            display: grid;
+                            grid-template-columns: repeat(2, 1fr);
+                            gap: 15px;
+                            margin: 15px 0;
+                        }
+                        .metric-card {
+                            border: 1px solid #ddd;
+                            padding: 15px;
+                            border-radius: 5px;
+                            text-align: center;
+                        }
+                        .metric-value {
+                            font-size: 24px;
+                            font-weight: bold;
+                            color: #3498db;
+                            margin: 10px 0;
+                        }
+                        .log-item {
+                            border: 1px solid #ddd;
+                            padding: 15px;
+                            margin-bottom: 15px;
+                            border-radius: 5px;
+                            page-break-inside: avoid;
+                        }
+                        .log-header {
+                            display: flex;
+                            justify-content: space-between;
+                            margin-bottom: 10px;
+                            font-weight: bold;
+                        }
+                        .log-tags {
+                            margin: 10px 0;
+                        }
+                        .log-tag {
+                            background: #e9ecef;
+                            padding: 2px 8px;
+                            border-radius: 10px;
+                            font-size: 11px;
+                            margin-right: 5px;
+                        }
+                        .priority-high { background: #ffeaa7; }
+                        .priority-critical { background: #fab1a0; }
+                        .priority-medium { background: #a29bfe; }
+                        .priority-low { background: #dfe6e9; }
+                        @media print {
+                            body { margin: 0; }
+                            .section { page-break-inside: avoid; }
+                            .log-item { page-break-inside: avoid; }
+                        }
+                    </style>
+                </head>
+                <body>
+                    <div class="print-header">
+                        <h1>LAPORAN PROJECT: ${projectData.projectName || 'Nama Project'}</h1>
+                        <p><strong>Deskripsi:</strong> ${projectData.projectDesc || 'Deskripsi project'}</p>
+                        <p><strong>Periode:</strong> ${projectData.startDate ? formatDate(projectData.startDate) : 'N/A'} - ${projectData.endDate ? formatDate(projectData.endDate) : 'N/A'}</p>
+                        <p><strong>Progress Keseluruhan:</strong> ${overallProgress}%</p>
+                        <p><strong>Tanggal Cetak:</strong> ${new Date().toLocaleDateString('id-ID')}</p>
+                    </div>
+
+                    <div class="section">
+                        <h2>Monitoring Kinerja Tim</h2>
+                        <table class="team-stats-table">
+                            <thead>
+                                <tr>
+                                    <th>Nama</th>
+                                    <th>Role</th>
+                                    <th>Total Log</th>
+                                    <th>Total Jam Kerja</th>
+                                    <th>Rata-rata Kualitas</th>
+                                    <th>Performance Score</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${Object.values(teamStats).map(member => `
+                                    <tr>
+                                        <td>${member.name}</td>
+                                        <td>${member.role === 'leader' ? 'Project Leader' : 'Team Member'}</td>
+                                        <td>${member.totalLogs}</td>
+                                        <td>${member.totalAdjustedHours.toFixed(1)}</td>
+                                        <td>${member.avgQuality || 0}%</td>
+                                        <td>${member.performanceScore}</td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="section">
+                        <h2>Ringkasan Analytics</h2>
+                        <div class="metric-grid">
+                            <div class="metric-card">
+                                <h3>Total Log Harian</h3>
+                                <div class="metric-value">${dailyLogs.length}</div>
+                            </div>
+                            <div class="metric-card">
+                                <h3>Total Jam Kerja</h3>
+                                <div class="metric-value">${dailyLogs.reduce((sum, log) => sum + (log.adjustedHours || log.hours), 0).toFixed(1)}</div>
+                            </div>
+                            <div class="metric-card">
+                                <h3>Progress Project</h3>
+                                <div class="metric-value">${overallProgress}%</div>
+                            </div>
+                            <div class="metric-card">
+                                <h3>Rata-rata Kualitas</h3>
+                                <div class="metric-value">${dailyLogs.length > 0 ? Math.round(dailyLogs.reduce((sum, log) => sum + (log.relevanceScore || 0), 0) / dailyLogs.length) : 0}%</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <h2>Log Harian (${dailyLogs.length} entri)</h2>
+                        <p><strong>Periode Log:</strong> ${getLogDateRange()}</p>
+                        
+                        ${dailyLogs.length === 0 ? 
+                            '<p>Tidak ada log harian.</p>' : 
+                            dailyLogs
+                                .sort((a, b) => new Date(b.date.replace(/-/g, '/')) - new Date(a.date.replace(/-/g, '/')))
+                                .map(log => {
+                                    const member = projectData.teamMembers.find(m => m.id === log.memberId);
+                                    const milestone = projectData.milestones.find(m => m.id === log.milestoneId);
+                                    const subtask = milestone ? milestone.subtasks.find(s => s.subId === log.subId) : null;
+                                    
+                                    return `
+                                        <div class="log-item">
+                                            <div class="log-header">
+                                                <span>${formatDate(log.date)} - ${member ? member.name : 'Unknown'}</span>
+                                                <span>${log.hours} jam (Quality: ${log.relevanceScore}%)</span>
+                                            </div>
+                                            <div>
+                                                <strong>Task:</strong> ${milestone ? milestone.name : 'N/A'} / ${subtask ? subtask.name : 'N/A'} (Progress: ${log.progress}%)
+                                            </div>
+                                            <div>
+                                                <strong>Aktivitas:</strong> ${log.activities}
+                                            </div>
+                                            ${log.challenges ? `<div><strong>Kendala:</strong> ${log.challenges}</div>` : ''}
+                                            ${log.nextPlan ? `<div><strong>Rencana Selanjutnya:</strong> ${log.nextPlan}</div>` : ''}
+                                            <div class="log-tags">
+                                                ${log.tags.map(tag => `<span class="log-tag">${tag}</span>`).join('')}
+                                                <span class="log-tag priority-${log.priority}">${log.priority.toUpperCase()}</span>
+                                            </div>
+                                        </div>
+                                    `;
+                                }).join('')
+                        }
+                    </div>
+                </body>
+                </html>
+            `;
+
+            printWindow.document.write(printContent);
+            printWindow.document.close();
+            
+            // Tunggu sebentar agar konten terload, lalu print
+            setTimeout(() => {
+                printWindow.print();
+                // Opsional: tutup window setelah print
+                // printWindow.close();
+            }, 500);
+        }
+
+        // Helper function untuk print
+        function getLogDateRange() {
+            if (dailyLogs.length === 0) return 'Tidak ada data';
+            
+            const dates = dailyLogs.map(log => new Date(log.date.replace(/-/g, '/')));
+            const minDate = new Date(Math.min(...dates));
+            const maxDate = new Date(Math.max(...dates));
+            
+            return `${formatDate(minDate.toISOString().split('T')[0])} - ${formatDate(maxDate.toISOString().split('T')[0])}`;
+        }
+
+        // Fungsi untuk mendapatkan data team stats untuk print
+        function getTeamStatsForPrint() {
+            const stats = {};
+            
+            projectData.teamMembers.forEach(member => {
+                stats[member.id] = {
+                    name: member.name,
+                    role: member.role,
+                    totalLogs: 0,
+                    totalHours: 0,
+                    totalAdjustedHours: 0,
+                    avgQuality: 0,
+                    performanceScore: penaltySystem.memberScores[member.id] || 100
+                };
+            });
+            
+            dailyLogs.forEach(log => {
+                if (!stats[log.memberId]) return;
+                
+                stats[log.memberId].totalLogs++;
+                stats[log.memberId].totalHours += log.hours;
+                stats[log.memberId].totalAdjustedHours += log.adjustedHours || log.hours;
+                stats[log.memberId].avgQuality += log.relevanceScore || 0;
+            });
+            
+            Object.keys(stats).forEach(memberId => {
+                if (stats[memberId].totalLogs > 0) {
+                    stats[memberId].avgQuality = Math.round(stats[memberId].avgQuality / stats[memberId].totalLogs);
+                }
+            });
+            
+            return stats;
+        }
 
         // --- Initialization and Core Setup ---
         function initializeEnhancedSystem() {
-            console.log("Enhanced System Initialized with Subtasks");
+            console.log("Enhanced System Initialized with Anti-Claim & Penalty System");
             
             setupTabs();
             setupTimelineFormListeners();
             setupLogFormListeners();
             setupImageUpload();
             setupTemplateSelection();
-            setupReportAndPrint();
             setupSettings();
+            setupTeamMonitoringListeners();
 
             loadProjectDataToForm();
             renderTimeline();
@@ -2890,12 +4447,24 @@
             renderLogList();
             calculateOverallProgress();
             
+            // Initialize penalty system
+            penaltySystem.initializeMemberScores();
+            penaltySystem.updatePenaltyDisplay();
+            
             setupAnalytics();
+            
+            // Setup print button - PASTIKAN INI ADA
+            document.getElementById('printFullReport').addEventListener('click', generatePrintView);
             
             const autoSaveInterval = parseInt(document.getElementById('autoSave').value) * 60000;
             if (autoSaveInterval > 0) {
                 setInterval(saveAllData, autoSaveInterval);
             }
+            
+            // Auto-calculate penalties daily
+            setInterval(() => {
+                penaltySystem.calculateDailyPenalties();
+            }, 24 * 60 * 60 * 1000); // Every 24 hours
         }
 
         document.addEventListener('DOMContentLoaded', initializeEnhancedSystem);
