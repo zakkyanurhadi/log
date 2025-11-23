@@ -2220,6 +2220,7 @@
                     qualityWarning.textContent = `Kualitas konten rendah (${relevanceScore}%). Tambahkan detail lebih spesifik untuk meningkatkan skor.`;
                     qualityWarning.style.display = 'block';
                 } else {
+                    infoElement.style.display = 'none';
                     qualityWarning.textContent = `Kualitas konten (${relevanceScore}%).`
                     qualityWarning.style.display = 'block';
                 }
