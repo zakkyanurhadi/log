@@ -2201,7 +2201,12 @@
             const activities = activitiesInput.value.trim();
             
             if (hours > 0 && activities) {
-                const { relevanceScore } = checkContentRelevance('', '', activities);
+                const subtaskIdComposite = document.getElementById('milestoneSelect').value;
+                if (subtaskIdComposite) {
+                    const [milestoneId, subId] = subtaskIdComposite.split('_');
+                    const result = checkContentRelevance(milestoneId, subId, activities);
+                    relevanceScore = result.relevanceScore;
+                }
                 const qualityThreshold = parseInt(document.getElementById('contentQualityThreshold').value) || 70;
                 const adjustedHours = calculateAdjustedHours(hours, relevanceScore, qualityThreshold);
                 
